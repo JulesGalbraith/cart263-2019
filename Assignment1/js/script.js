@@ -1,6 +1,7 @@
 "use strict";
 
 let backgroundImg;
+
 let avatar = {
   x: 0,
   y: 0,

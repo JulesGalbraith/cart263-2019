@@ -1,0 +1,22 @@
+"use strict"
+
+let shapes = [];
+
+function setup() {
+  createCanvas(windowWidth,windowHeight);
+  shapes.push(new Square(random(0,width), random(0,height),100));
+  shapes.push(new Circle(random(0,width), random(0,height),200,255));
+  shapes.push(new Circle(random (0,width),random(0,height),100,color(200,200,255)));
+  shapes.push(new Line(width-width/3,height-height/3,random(0,width),random(0,height)));
+
+}
+
+
+function draw() {
+  background(255, 232, 235)
+
+for (let i = 0; i < shapes.length; i ++) {
+  shapes[i].update();
+  shapes[i].display();
+  }
+}
