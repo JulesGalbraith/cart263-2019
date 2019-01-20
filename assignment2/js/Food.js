@@ -18,10 +18,10 @@ class Food extends Agent {
     this.colourVal1 = random(100,255);
     this.colourVal2 = random(100,255);
     this.colourVal3 = random(100,255);
-    this.maxSpeed = 4;
-    this.vx;
-    this.vy;
-    this.noiseT = 0.1;
+    this.maxSpeed = random(-3,3);
+    this.vx = 0;
+    this.vy = 0;
+    this.noiseT = random(0.5);
   }
 
   // reset()
@@ -34,14 +34,12 @@ class Food extends Agent {
 
     this.size = random(this.minSize,this.maxSize,);
 
-    this.colourVal1 = random(50,255);
-    this.colourVal2 = random(50,200);
-    this.colourVal3 = random(50,255);
+    this.colourVal1 = random(100,255);
+    this.colourVal2 = random(50,100);
+    this.colourVal3 = random(100,255);
     this.colour = color(this.colourVal1,this.colourVal2,this.colourVal2);
 
-    this.vx = -this.vx;
-    this.vy = - this.vy;
-
+    this.vx = random(-this.maxSpeed,this.maxSpeed);
   }
 
 
@@ -60,18 +58,22 @@ class Food extends Agent {
     }
   }
 
+
 update() {
 
-this.vx = (3*map(noise(this.noiseT),0,1,-this.maxSpeed,this.maxSpeed));
-this.vy = 3*map(noise(this.noiseT),0,1,-this.maxSpeed,this.maxSpeed);
+this.vx = this.maxSpeed;
+this.vy = random(3,10)*(map(noise(this.noiseT),0,1,-this.maxSpeed,this.maxSpeed));
 
-this.x += this.vx
-this.y += this.vy
+this.x += this.vx;
+this.y += this.vy;
 
-this.noiseT += 0.1;
+this.noiseT += 0.2;
 this.wrap();
 
 }
 
+randomize() {
+ this.maxSpeed = random(-this.MaxSpeed,this.maxSpeed);
+}
 
 }
