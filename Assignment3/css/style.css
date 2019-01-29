@@ -26,11 +26,12 @@ div {
   margin-top: 50px;
 }
 .paragraph{
-  margin-left: 500px;
+  margin-left: 510px;
   margin-top: 10px;
   margin-bottom:10px;
   width: 550px;
-  text-align: center
+  text-align: justify;
+float: center;
   font-size: 10pt;
   font-family: Courier,monospace;
 }
@@ -81,10 +82,10 @@ div {
 @keyframes animation {
   from {
     background-size: 600px 600px;
-    transform: rotateZ(0deg) scale(1); }
+    transform: rotateY(0deg) scale(1); }
   to {
     background-size: 70px 70px;
-    transform:rotateZ(720deg) scale(0.1);
+    transform:rotateY(720deg) scale(0.1);
   }
 }
 
