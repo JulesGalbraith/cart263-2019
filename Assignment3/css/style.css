@@ -6,7 +6,7 @@ div {
 .normal {
   background-image: url("../assets/images/paper.jpg");
   font-weight: bold;
-  background-size: 600px 600px;
+  background-size: 700px 700px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -26,7 +26,7 @@ div {
   margin-top: 50px;
 }
 .paragraph{
-  margin-left: 510px;
+  margin-left: 600px;
   margin-top: 10px;
   margin-bottom:10px;
   width: 550px;
@@ -63,7 +63,7 @@ float: center;
   text-align: right;
   font-size: 15px;
   margin-top: 60px;
- margin-right:500px;
+ margin-right:600px;
 
 }
 
@@ -81,7 +81,7 @@ float: center;
 
 @keyframes animation {
   from {
-    background-size: 600px 600px;
+    background-size: 700px 700px;
     transform: rotateY(0deg) scale(1); }
   to {
     background-size: 70px 70px;
