@@ -14,7 +14,7 @@ div {
 .destructMe{
  background-image: url("https://i.pinimg.com/originals/92/f4/a0/92f4a03d6ac3e7da883f64dde6c4f5eb.jpg");
  font-weight:bold;
- background-size: 600px 600px;
+ background-size: 700px 700px;
  background-repeat: no-repeat;
  background-position: center;
  transform: rotateY(0deg) scale(1);
@@ -26,11 +26,11 @@ div {
   margin-top: 50px;
 }
 .paragraph{
-  margin-left: 600px;
+  margin-left: 500px;
   margin-top: 10px;
   margin-bottom:10px;
   width: 550px;
-  align-content: center;
+  text-align: center
   font-size: 10pt;
   font-family: Courier,monospace;
 }
