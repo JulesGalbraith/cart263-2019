@@ -26,12 +26,12 @@ div {
   margin-top: 50px;
 }
 .paragraph{
-  margin-left: 700px;
+   margin-left: 550px; 
   margin-top: 10px;
   margin-bottom:10px;
   width: 600px;
   text-align: justify;
-  float: center;
+  position: center;
   font-size: 10pt;
   font-family: Courier,monospace;
 }
