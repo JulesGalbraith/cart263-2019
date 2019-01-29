@@ -1,42 +1,50 @@
-
-div {
+/* div {
   margin: 40px;
-}
-
+} */
 .normal {
   background-image: url("../assets/images/paper.jpg");
   font-weight: bold;
   background-size: 700px 700px;
   background-repeat: no-repeat;
+   text-align: center;
   background-position: center;
 }
 
-.destructMe{
- background-image: url("https://i.pinimg.com/originals/92/f4/a0/92f4a03d6ac3e7da883f64dde6c4f5eb.jpg");
- font-weight:bold;
- background-size: 700px 700px;
- background-repeat: no-repeat;
- background-position: center;
- transform: rotateY(0deg) scale(1);
- animation-name: animation;
+.global {
+  width: 650px;
+  height: 700px;
+  /* text-align: center; */
+  display: inline-block;
+  transform-origin:center
+
+}
+
+.destructMe {
+  background-image: url("https://i.pinimg.com/originals/92/f4/a0/92f4a03d6ac3e7da883f64dde6c4f5eb.jpg");
+  font-weight: bold;
+  background-size: 700px 700px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotateY(0deg) scale(1);
+  animation-name: animation;
   animation-duration: 10s;
 }
 
-#first{
+#first {
   margin-top: 50px;
 }
-.paragraph{
-   margin-left: 550px; 
+
+.paragraph {
+  margin: 20px;
   margin-top: 10px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   width: 600px;
   text-align: justify;
-  position: center;
   font-size: 10pt;
-  font-family: Courier,monospace;
+  font-family: Courier, monospace;
 }
 
-.redacted {
+ .redacted {
   background-color: black;
   color: transparent;
 }
@@ -57,36 +65,27 @@ div {
 }
 
 #tracker {
-
   color: black;
-  font-family:Courier,monospace;
+  font-family: Courier, monospace;
   text-align: right;
   font-size: 15px;
   margin-top: 60px;
- margin-right:700px;
-
-}
-
-#gotcha {
-  color: black;
-  font-family:Courier,monospace;
-  text-align: right;
-  margin-top: 30px;
- margin-right:200px;
+  display: inline-block;
 }
 
 .yikes {
-  color:red;
+  color: red;
 }
 
 @keyframes animation {
   from {
     background-size: 700px 700px;
-    transform: rotateY(0deg) scale(1); }
+    transform: rotateZ(0deg) scale(1);
+  }
+
   to {
     background-size: 70px 70px;
-    transform:rotateY(720deg) scale(0.1);
+    transform: rotateZ(720deg) scale(0.1);
   }
 }
-
 }

@@ -12,7 +12,6 @@ function setup() {
   setInterval(update, 500);
   $("span").on("click", spanClicked);
   $(".secret").on("mouseover", mouseWave);
-  $("#gotcha").hide();
 }
 
 function update() {
@@ -56,7 +55,7 @@ function mouseWave() {
 function destruct() {
   if (selfDestruct === 1) {
     console.log("hi");
-    $("body").removeClass("normal");
+    $("body").removeClass("global");
     $("body").addClass("destructMe");
   }
 
