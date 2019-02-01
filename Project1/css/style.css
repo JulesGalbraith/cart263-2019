@@ -18,21 +18,21 @@
 .fig {
   height:100px;
   width:100px;
+    cursor: url("../assets/images/holdingHand.png"),auto;
+  }
+
+.healthy {
   background-image: url("../assets/images/fig.png");
   background-size: 75px;
   background-repeat: no-repeat;
-    cursor: url("../assets/images/holdingHand.png"),auto;
-}
-.healthy{
-  background-image: url("../assets/images/fig.png");
 }
 
-.figMidRot{
-  background-image: url("../assets/images/fig2.png");
-}
-
-.figRotten{
-  background-image: url("../assets/images/fig2.png");
+.rotten {
+  background-image: url("../assets/images/figRotten.png");
+  height:200px;
+  width:200px;
+  background-size: 130px;
+  background-repeat: no-repeat;
 }
 
 #fig1 {
@@ -117,6 +117,7 @@
   z-index:100;
 }
 
+/* the buttons giving one the choice between trying or rejecting a fig */
 .choice {
   width:200px;
   height:100px;
@@ -127,14 +128,21 @@
 
 }
 
+/*the button choosing to taste the fig*/
 #taste {
   position: absolute;
   right: 100px;
   bottom:500px;
 }
 
+/*the button rejecting the fig*/
+
 #reject {
   position:absolute;
   right: 100px;
   bottom:300px;
+}
+
+.reactionToRottenFig {
+
 }
