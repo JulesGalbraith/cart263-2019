@@ -6,13 +6,7 @@
   cursor: url("../assets/images/reachingHand.png"),auto;
 }
 
-.hand1 {
-  cursor: url("../assets/images/reachingHand.png"),auto;
-}
 
-.hand2 {
-  cursor: url("../assets/images/holdingHand.png"),auto;
-}
 .static {
   position:static;
   z-index:-1;
@@ -27,7 +21,20 @@
   background-image: url("../assets/images/fig.png");
   background-size: 75px;
   background-repeat: no-repeat;
+    cursor: url("../assets/images/holdingHand.png"),auto;
 }
+.healthy{
+  background-image: url("../assets/images/fig.png");
+}
+
+.figMidRot{
+  background-image: url("../assets/images/fig2.png");
+}
+
+.figRotten{
+  background-image: url("../assets/images/fig2.png");
+}
+
 #fig1 {
   position: absolute;
   left: 30%;
@@ -94,4 +101,40 @@
   top:100px;
   height:100px;
   width:100px;
+}
+
+
+.figSelected{
+  height:30px;
+  width:200px;
+  text-align:center;
+  position:absolute;
+  font-family:Andale mono, monospace;
+  left:150px;
+  top:200px;
+  font-size:30px;
+  color:rgb(255, 247, 209);
+  z-index:100;
+}
+
+.choice {
+  width:200px;
+  height:100px;
+  font-family:Andale mono, monospace;
+  color: rgb(255, 216, 209);
+  background-color:rgb(155, 154, 153);
+  cursor: url("../assets/images/reachingHand.png"),auto;
+
+}
+
+#taste {
+  position: absolute;
+  right: 100px;
+  bottom:500px;
+}
+
+#reject {
+  position:absolute;
+  right: 100px;
+  bottom:300px;
 }

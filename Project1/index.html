@@ -29,26 +29,27 @@ crossorigin="anonymous"></script>
 <script src="js/script.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+
 
 <body>
   <div class="container" class="hand1">
+
   <img class="static" src="../assets/images/tree.png"></img>
-  <div class="fig" id="fig1"></div>
-  <div class="fig" id="fig2"></div>
-  <div class="fig" id="fig3"></div>
-  <div class="fig" id="fig4"></div>
-  <div class="fig" id="fig5"></div>
-  <div class="fig" id="fig6"></div>
-  <div class="fig" id="fig7"></div>
-  <div class="fig" id="fig8"></div>
-  <div class="fig" id="fig9"></div>
-  <div class="fig" id="fig10"></div>
+  <div class="fig" class= "healthy" id="fig1"></div>
+  <div class="fig" class= "healthy" id="fig2"></div>
+  <div class="fig" class= "healthy" id="fig3"></div>
+  <div class="fig" class= "healthy" id="fig4"></div>
+  <div class="fig" class= "healthy" id="fig5"></div>
+  <div class="fig" class= "healthy" id="fig6"></div>
+  <div class="fig" class= "healthy" id="fig7"></div>
+  <div class="fig" class= "healthy" id="fig8"></div>
+  <div class="fig" class= "healthy" id="fig9"></div>
+  <div class="fig" class= "healthy" id="fig10"></div>
 
-  <dialog class="choiceToEat">
-      <p> looks delicious. would you like a taste?</p>
-      <button>oh, yes</button>
-      <button>no, i think i'll choose another one..</button>
-  <dialog>
-
+  <div class="figSelected">oh, this looks delicious.
+    should i taste it?</div>
+  <button class="choice" id="taste"> mm, yes</button>
+  <button class="choice" id="reject">no, the other fruit look more ripe</button>
   </div>
 </body>
