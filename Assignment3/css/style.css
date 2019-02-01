@@ -13,7 +13,6 @@
 .global {
   width: 650px;
   height: 700px;
-  /* text-align: center; */
   display: inline-block;
   transform-origin:center
 
