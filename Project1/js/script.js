@@ -1,3 +1,7 @@
+// Fig Tree: A Game of Choice and Passing Time
+//Music : Sensual Seduction (Snoop Dogg Instrumental)
+
+
 let figs = [$(".fig")];
 let totalFigs = 10;
 let mouseX;
@@ -6,6 +10,8 @@ let mouseY;
 let shakeInterval = 3000
 let figChosen = false;
 let whichFig;
+
+let playing = true;
 
 $(document).ready(function() {
 
@@ -30,7 +36,7 @@ $(document).ready(function() {
   $(".healthy").on("mouseover", figShake);
 
   setInterval(noMoreFigs,100);
-
+  $(".audioToggle").on("click",stopMusic);
 });
 
 //called when a fig is clicked on
@@ -70,7 +76,6 @@ function rotFig() {
  $(".reactionToRottenFig").show();
  $(whichFig).draggable("disable");
 
- console.log($(".healthy").length);
 
 }
 
@@ -111,5 +116,17 @@ function rotOtherFigs(){
    $(".text").fadeOut(4000);
    $(".reload").show();
 
-   
- }
+   $(".reload").click(function(){
+     location.reload(true);
+   })
+}
+
+function stopMusic(){
+  if (playing === true){
+  $(".backgroundAudio").trigger("pause");
+  playing = false}
+  else if (playing === false) {
+    $(".backgroundAudio").trigger("play");
+    playing = true
+  }
+}
