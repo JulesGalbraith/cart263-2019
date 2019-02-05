@@ -35,10 +35,14 @@ crossorigin="anonymous"></script>
 <body>
   <div class="container" class="hand1">
 
+<!-- background audio and toggle on/ off button-->
     <audio src="../assets/sounds/SNOOPSS.mp3" autoplay loop class="backgroundAudio"></audio>
     <button class="audioToggle"> please be quiet </button>
 
+    <!-- one tree that does not move-->
   <img class="static" src="../assets/images/tree.png"></img>
+
+  <!-- ten fig images, independantly placed in css-->
   <div class="fig healthy" id="fig1"></div>
   <div class="fig healthy" id="fig2"></div>
   <div class="fig healthy" id="fig3"></div>
@@ -50,13 +54,17 @@ crossorigin="anonymous"></script>
   <div class="fig healthy" id="fig9"></div>
   <div class="fig healthy" id="fig10"></div>
 
+  <!-- text and buttons appearing when a fig is selected-->
+
   <div class="text figSelected">looks delicious.
     should i taste it?</div>
   <button class="choice" id="taste"> mm, yes</button>
   <button class="choice" id="reject">no, the other fruit seem more ripe</button>
 
+  <!-- text appearing when one of the buttons is selected-->
   <div class="text reactionToRottenFig">oh no... it went rotten in my hand...</div>
   <div class="text reactionToRottenTree"> oh no, they've all died</div>
+    <!--text appearing when all the figs have died, and button to reload if so -->
   <div class="text allFigsDead">there's nothing left for me here</div>
   <button class="reload">find a new tree</button>
     </div>

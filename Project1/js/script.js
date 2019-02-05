@@ -2,15 +2,14 @@
 //Music : Sensual Seduction (Snoop Dogg Instrumental)
 
 
-let figs = [$(".fig")];
-let totalFigs = 10;
-let mouseX;
-let mouseY;
 
+//variable holding interval at which figs will shake
 let shakeInterval = 3000
+//variables tracking whether fig has been chosen, as well as the id of the particular fig
 let figChosen = false;
 let whichFig;
 
+//variable to be set to false if user chooses to pause music
 let playing = true;
 
 $(document).ready(function() {
@@ -74,22 +73,27 @@ function rotFig() {
 
 //shows new text, which expresses disappointment at the newly rotten fig
  $(".reactionToRottenFig").show();
+ //turns off draggability of the most recently selected fig
  $(whichFig).draggable("disable");
 
 
 }
 
 function rotOtherFigs(){
+  //changes div image to a rotten fig
   $(".fig").removeClass("healthy");
   $(".fig").addClass("rotten");
+  //displays text
   $(".reactionToRottenTree").show();
   //hides text and  buttons
     $(".figSelected").hide();
     $(".choice").hide();
 
+//maintains the class of the most recently selected fig
     $(whichFig).addClass("healthy");
     $(whichFig).removeClass("rotten");
 
+//removes all functions bound to the .healthy class
     $(".rotten").off();
 }
 
@@ -116,11 +120,13 @@ function rotOtherFigs(){
    $(".text").fadeOut(4000);
    $(".reload").show();
 
+//button offering reload option appears
    $(".reload").click(function(){
      location.reload(true);
    })
 }
 
+//tracks whether variable "playing" is true, and plays or pauses the music accordingly. bound a button in the doc.ready function
 function stopMusic(){
   if (playing === true){
   $(".backgroundAudio").trigger("pause");

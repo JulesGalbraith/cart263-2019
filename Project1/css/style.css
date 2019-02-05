@@ -1,3 +1,4 @@
+/*formats entire web document- creates a soft pastel background, and sets the cursor to a reaching hand*/
 .container {
   background-image: linear-gradient(to bottom right, rgb(205, 221, 247),rgb(247, 205, 207));
   position:relative;
@@ -6,7 +7,7 @@
   cursor: url("../assets/images/reachingHand.png"),auto;
 }
 
-
+/*sets a tree in the middle of the web page*/
 .static {
   position:static;
   z-index:-1;
@@ -15,18 +16,21 @@
   margin-left:30%
 }
 
+/*general class format- size of the div. also sets the cursor to change when hovering*/
 .fig {
   height:100px;
   width:100px;
     cursor: url("../assets/images/holdingHand.png"),auto;
   }
 
+  /*general class for healthy figs- sets image size and source*/
 .healthy {
   background-image: url("../assets/images/fig.png");
   background-size: 75px;
   background-repeat: no-repeat;
 }
 
+/*general class for rotten figs. sets image size and new div size*/
 .rotten {
   background-image: url("../assets/images/figRotten.png");
   height:200px;
@@ -35,6 +39,7 @@
   background-repeat: no-repeat;
 }
 
+/*manually positions the fig images around the tree*/
 #fig1 {
   position: absolute;
   left: 30%;
@@ -95,6 +100,7 @@
   top:25%;
 }
 
+/*sets size of div and image of general-use cursor*/
 #reachingHand {
   position: absolute;
   left:100px;
@@ -114,19 +120,26 @@
   top:250px;
   z-index:100;
 }
+
+/*sets yellow text on left of screen, to be displayed when a fig is selected*/
 .figSelected{
   color:rgb(255, 247, 209);
   font-size:25px;
-
 }
+
+/*sets text to appear- orange- when a single fig rots*/
 .reactionToRottenFig {
   color: rgb(175, 17, 17);
   font-size:20px;
 }
+
+/*sets text to appear-black- when all but the selected fig die */
 .allFigsDead{
   color: rgb(0,0,0);
   font-size:25px;
 }
+
+/*positions button to appear in right-hand side of screen, offering reload option*/
 .reload{
   text-align:center;
   position:absolute;
@@ -175,5 +188,4 @@ font-size: 30;
   width: 100px;
   height:70px;
   font-family:Andale mono, monospace;
-
 }
