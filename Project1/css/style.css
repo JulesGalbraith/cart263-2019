@@ -143,6 +143,7 @@
 .reload{
   text-align:center;
   position:absolute;
+  cursor: url("../assets/images/reachingHand.png"),auto;
   font-family:Andale mono, monospace;
   right:200px;
   bottom:200px;

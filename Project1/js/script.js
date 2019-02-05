@@ -109,7 +109,7 @@ function rotOtherFigs(){
 //3 seconds after all the figs die, an animation will run fading out all elements but the background
 //and the final text element, which will continue to blink. i could have stopped it in endAnimation(), but i enjoyed the
 //slightly despairing, neverending blinking effect it gave
-     setTimeout(endAnimation,2000);
+     setTimeout(endAnimation,1000);
    }
  }
 
