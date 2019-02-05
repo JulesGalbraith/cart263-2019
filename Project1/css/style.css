@@ -103,46 +103,60 @@
   width:100px;
 }
 
-
-.figSelected{
+/*formatting for all text appearing at the left hand side of the screen*/
+.text{
   height:30px;
   width:200px;
   text-align:center;
   position:absolute;
   font-family:Andale mono, monospace;
   left:150px;
-  top:200px;
-  font-size:30px;
-  color:rgb(255, 247, 209);
+  top:250px;
   z-index:100;
 }
+.figSelected{
+  color:rgb(255, 247, 209);
+  font-size:25px;
 
-/* the buttons giving one the choice between trying or rejecting a fig */
+}
+.reactionToRottenFig {
+  color: rgb(175, 17, 17);
+  font-size:20px;
+}
+.allFigsDead{
+  color: rgb(0,0,0);
+  font-size:25px;
+}
+.reload{
+  text-align:center;
+  position:absolute;
+  font-family:Andale mono, monospace;
+  left:200px;
+  bottom:200px;
+  color:rgb(255, 247, 209);
+font-size: 30;
+}
+/* formats both buttons giving the choice between trying or rejecting a fig */
 .choice {
   width:200px;
   height:100px;
   font-family:Andale mono, monospace;
+  font-size:20px;
   color: rgb(255, 216, 209);
   background-color:rgb(155, 154, 153);
   cursor: url("../assets/images/reachingHand.png"),auto;
+  border-radius: 20px;
 
 }
-
 /*the button choosing to taste the fig*/
 #taste {
   position: absolute;
   right: 100px;
   bottom:500px;
 }
-
 /*the button rejecting the fig*/
-
 #reject {
   position:absolute;
   right: 100px;
   bottom:300px;
-}
-
-.reactionToRottenFig {
-
 }
