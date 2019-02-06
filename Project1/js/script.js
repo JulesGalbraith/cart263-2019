@@ -35,6 +35,7 @@ $(document).ready(function() {
   $(".healthy").on("mouseover", figShake);
 
   setInterval(noMoreFigs,100);
+  $(".backgroundAudio").trigger("play");
   $(".audioToggle").on("click",stopMusic);
 });
 
