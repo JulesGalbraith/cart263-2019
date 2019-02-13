@@ -17,11 +17,15 @@ Chewing: https://freesound.org/people/InspectorJ/sounds/412068/
 // Sound effects for the experience
 let buzzSFX = new Audio("assets/sounds/buzz.mp3");
 let crunchSFX = new Audio("assets/sounds/crunch.wav");
+let handSFX = new Audio("assets/sounds/hand.mp3");
 
 // Variable to hold our two key elements
 let $mouth;
 let $fly;
 let $cow;
+let $hand;
+let handEaten = false;
+let flyEaten = false;
 
 $(document).ready(setup);
 
@@ -32,6 +36,15 @@ function setup() {
   $fly = $('#fly');
   // Make it draggable
   $fly.draggable();
+  $fly.on("mousedown",isFlyEaten);
+
+
+
+  $hand =$("#hand");
+  $hand.draggable();
+  $hand.on("mousedown",isHandEaten);
+
+  console.log(handEaten);
 
   $cow = $("#cow");
   $cow.draggable({revert: "invalid"});
@@ -39,10 +52,9 @@ function setup() {
   $mouth.droppable({
     // The drop option specifies a function to call when a drop is completed
     drop: flyDropped,
-    accept:$fly,
+    accept:".droppable",
 
   });
-
   // Start up the buzzing of the fly
   buzzSFX.loop = true;
   buzzSFX.play();
@@ -59,6 +71,8 @@ function flyDropped (event,ui) {
   // ui contains a reference to the draggable element that was just dropped in ui.draggable
   // .remove() removes the select element from the page
   ui.draggable.remove(); // $fly.remove() would work here too
+
+  console.log();
   // We should "close the mouth" by changing its image
   // .attr() lets us change specific attributes on HTML element by specifying the attribute
   // and then what we want to set it to - in this case the 'src' attribute to the closed image
@@ -66,7 +80,11 @@ function flyDropped (event,ui) {
   // Now the fly is gone we should stop its buzzing
   buzzSFX.pause();
   // And start the crunching sound effect of chewing
-  crunchSFX.play();
+  if (flyEaten === true) {
+  crunchSFX.play();}
+  else if (handEaten === true){
+    handSFX.play();
+  }
   // Use a setInterval to call the chew() function over and over
   setInterval(chew,250);
 }
@@ -91,4 +109,13 @@ function chew () {
     // so we swap it for the open mouth
     $mouth.attr('src','assets/images/mouth-open.png');
   }
+}
+
+function isHandEaten() {
+  handEaten = true;
+}
+
+function isFlyEaten() {
+  flyEaten = true;
+  console.log("hi");
 }
