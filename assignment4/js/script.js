@@ -18,6 +18,7 @@ Chewing: https://freesound.org/people/InspectorJ/sounds/412068/
 let buzzSFX = new Audio("assets/sounds/buzz.mp3");
 let crunchSFX = new Audio("assets/sounds/crunch.wav");
 let handSFX = new Audio("assets/sounds/hand.mp3");
+let cowSFX =new Audio("assets/sounds/moo.mp3");
 
 // Variable to hold our two key elements
 let $mouth;
@@ -48,6 +49,7 @@ function setup() {
 
   $cow = $("#cow");
   $cow.draggable({revert: "invalid"});
+  $cow.on("mousedown",cowDropped);
 
   $mouth.droppable({
     // The drop option specifies a function to call when a drop is completed
@@ -90,7 +92,7 @@ function flyDropped (event,ui) {
 }
 
 function cowDropped(){
-
+cowSFX.play();
 }
 // chew()
 //
