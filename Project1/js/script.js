@@ -12,8 +12,13 @@ let whichFig;
 //variable to be set to false if user chooses to pause music
 let playing = true;
 
-$(document).ready(function() {
+let music = new Audio("assets/sounds/SNOOP.mp3");
 
+
+$(document).ready(setup);
+
+  function setup() {
+//loads music
 //hides buttons that will appear when a fig is selected
   $(".figSelected").hide();
   $(".choice").hide();
@@ -35,9 +40,11 @@ $(document).ready(function() {
   $(".healthy").on("mouseover", figShake);
 
   setInterval(noMoreFigs,100);
-  $(".backgroundAudio").trigger("play");
+
+  music.loop = true;
+  music.play();
   $(".audioToggle").on("click",stopMusic);
-});
+};
 
 //called when a fig is clicked on
 function figPlucked() {
@@ -130,10 +137,13 @@ function rotOtherFigs(){
 //tracks whether variable "playing" is true, and plays or pauses the music accordingly. bound a button in the doc.ready function
 function stopMusic(){
   if (playing === true){
-  $(".backgroundAudio").trigger("pause");
-  playing = false}
+  // $(".backgroundAudio").trigger("pause");
+  music.pause();
+  playing = false
+    }
   else if (playing === false) {
-    $(".backgroundAudio").trigger("play");
+    // $(".backgroundAudio").trigger("play");
+    music.play();
     playing = true
   }
 }
