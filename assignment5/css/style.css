@@ -1,0 +1,32 @@
+/*********************************************
+
+This is the style file for this project.
+
+**********************************************/
+#begin {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background-color: indigo;
+  font-family: monospace;
+  color: red;
+  margin-left: 40%;
+  margin-top: 15%;
+}
+
+.guess {
+color: lavender;
+position: relative;
+display: inline-block;
+height:30px;
+width: 100px;
+align: center;
+font-size: 100px;
+font-family: monospace;
+top: 200px;
+left: 500px;
+}
+
+body {
+  font-size: 15px;
+}
