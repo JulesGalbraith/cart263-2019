@@ -1,6 +1,4 @@
-
-
-// Create a MarkovText object with a word depth of 3
+// variables holding various text files to be loaded into a model
 let dasKapital;
 let panopticism;
 let reparations;
@@ -8,26 +6,71 @@ let haraway;
 let clickbait;
 let altRight;
 
-let myMarkov = new MarkovText(5);
+//variable to hold the combined text files
+let allThisBotKnows;
 
-function preload(){
-dasKapital = loadStrings("assets/marx.txt");
-reparations = loadStrings("assets/caseforreparations.txt");
-panopticism = loadStrings("assets/panopticism.txt");
-haraway = loadStrings("assets/cyborgmanifesto.txt");
-clickbait = loadStrings("assets/clickbaitAgency.txt");
-altRight = ("assets/shapiroPeterson.txt");
+let speech;
 
+let halX;
+let halY;
+let halWidth = 250;
+
+function preload() {
+  dasKapital = loadStrings("assets/marx.txt");
+  reparations = loadStrings("assets/caseforreparations.txt");
+  panopticism = loadStrings("assets/panopticism.txt");
+  haraway = loadStrings("assets/cyborgmanifesto.txt");
+  clickbait = loadStrings("assets/clickbaitAgency.txt");
+  altRight = loadStrings("assets/shapiroPeterson.txt");
 }
 
 function setup() {
-console.log(dasKapital);
+  createCanvas(windowWidth, windowHeight);
+  background(0, 200);
+  createTxtModel();
 }
-// // Learn from our text
-// function learnToSpeak (){
-// let myMarkov = new MarkovText(5);
-// myMarkov.learn(dasKapital);
-// // Output 10 words
-// var generatedWords = myMarkov.output(2);
-// console.log(generatedWords);
-// }
+
+function draw() {
+  createClickableCircle();
+
+}
+
+function createTxtModel() {
+  //creates a new text model stored to which texts can be added, with a word sample depth of 4
+  allThisBotKnows = new RiMarkov(4);
+  //loads text files into the model: load text also splits the strings into individual "tokens"
+  allThisBotKnows.loadText(dasKapital.join(''));
+  allThisBotKnows.loadText(reparations.join(''));
+  // allThisBotKnows.loadText(panopticism.join(''));
+  // allThisBotKnows.loadText(haraway.join(''));
+  // allThisBotKnows.loadText(clickbait.join(''));
+  // allThisBotKnows.loadText(altRight.join(''));
+
+}
+
+function speakFriend() {
+  let voiceOptions = {
+    pitch: 0.7,
+    rate: 1
+  }
+  speech = allThisBotKnows.generateTokens(random(7, 20));
+  console.log(speech);
+  responsivevoice.speak(speech, "Latin Male", voiceOptions);
+}
+
+function createClickableCircle() {
+
+  halX = width/2;
+  halY = height/2;
+
+  push();
+  fill(255, 0, 0, 250);
+  ellipse(halX, halY, halWidth);
+  pop();
+}
+
+function MousePressed(){
+  let withinCircle = dist(mouseX, mouseY,halX,halY);
+
+  console.log(withinCircle);
+}
