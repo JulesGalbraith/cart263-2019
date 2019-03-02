@@ -10,6 +10,7 @@ let altRight;
 let allThisBotKnows;
 
 let speech;
+let joinedSpeech;
 
 let halX;
 let halY;
@@ -39,23 +40,24 @@ function createTxtModel() {
   //creates a new text model stored to which texts can be added, with a word sample depth of 4
   allThisBotKnows = new RiMarkov(4);
   //loads text files into the model: load text also splits the strings into individual "tokens"
-  allThisBotKnows.loadText(dasKapital.join(''));
-  allThisBotKnows.loadText(reparations.join(''));
-  allThisBotKnows.loadText(panopticism.join(''));
-  allThisBotKnows.loadText(haraway.join(''));
-  allThisBotKnows.loadText(clickbait.join(''));
+   allThisBotKnows.loadText(dasKapital.join(''));
+   allThisBotKnows.loadText(reparations.join(''));
+   allThisBotKnows.loadText(panopticism.join(''));
+   allThisBotKnows.loadText(haraway.join(''));
+   allThisBotKnows.loadText(clickbait.join(''));
   allThisBotKnows.loadText(altRight.join(''));
-
 }
 
 function speakFriend() {
   let voiceOptions = {
-    pitch: 0.7,
+    pitch: 1,
     rate: 1
   }
-  speech = allThisBotKnows.generateSentence();
-  console.log(speech);
-  responsiveVoice.speak(speech, "UK English Male", voiceOptions);
+  speech = allThisBotKnows.generateSentences(random(2,5));
+  joinedSpeech = speech.join(",");
+
+  console.log(joinedSpeech);
+   responsiveVoice.speak(joinedSpeech, "UK English Male", voiceOptions);
 }
 
 function createFriend() {
