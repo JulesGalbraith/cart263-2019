@@ -31,7 +31,7 @@ function setup() {
 }
 
 function draw() {
-  createClickableCircle();
+  createFriend();
 
 }
 
@@ -41,10 +41,10 @@ function createTxtModel() {
   //loads text files into the model: load text also splits the strings into individual "tokens"
   allThisBotKnows.loadText(dasKapital.join(''));
   allThisBotKnows.loadText(reparations.join(''));
-  // allThisBotKnows.loadText(panopticism.join(''));
-  // allThisBotKnows.loadText(haraway.join(''));
-  // allThisBotKnows.loadText(clickbait.join(''));
-  // allThisBotKnows.loadText(altRight.join(''));
+  allThisBotKnows.loadText(panopticism.join(''));
+  allThisBotKnows.loadText(haraway.join(''));
+  allThisBotKnows.loadText(clickbait.join(''));
+  allThisBotKnows.loadText(altRight.join(''));
 
 }
 
@@ -53,12 +53,12 @@ function speakFriend() {
     pitch: 0.7,
     rate: 1
   }
-  speech = allThisBotKnows.generateTokens(random(7, 20));
+  speech = allThisBotKnows.generateSentence();
   console.log(speech);
-  responsivevoice.speak(speech, "Latin Male", voiceOptions);
+  responsiveVoice.speak(speech, "UK English Male", voiceOptions);
 }
 
-function createClickableCircle() {
+function createFriend() {
 
   halX = width/2;
   halY = height/2;
@@ -67,10 +67,13 @@ function createClickableCircle() {
   fill(255, 0, 0, 250);
   ellipse(halX, halY, halWidth);
   pop();
+
 }
 
-function MousePressed(){
+function mousePressed(){
   let withinCircle = dist(mouseX, mouseY,halX,halY);
 
-  console.log(withinCircle);
+  if (withinCircle < halWidth/2) {
+    speakFriend();
+}
 }
