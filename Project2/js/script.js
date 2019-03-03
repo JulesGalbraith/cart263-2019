@@ -33,6 +33,7 @@ function setup() {
 
 function draw() {
   createFriend();
+  talkBack();
 
 }
 
@@ -53,8 +54,8 @@ function speakFriend() {
     pitch: 1,
     rate: 1
   }
-  speech = allThisBotKnows.generateSentences(random(2,5));
-  joinedSpeech = speech.join(",");
+  speech = allThisBotKnows.generateSentences(random(1,3));
+  joinedSpeech = speech.join("");
 
   console.log(joinedSpeech);
    responsiveVoice.speak(joinedSpeech, "UK English Male", voiceOptions);
@@ -70,6 +71,32 @@ function createFriend() {
   ellipse(halX, halY, halWidth);
   pop();
 
+}
+
+function talkBack() {
+  if (annyang) {
+
+    let helloResp = function (){
+      responsiveVoice.speak("Hello there. Who are you?", "UK English Male");
+      console.log("hello");
+    }
+    let introductionResp = function(){
+      responsiveVoice.speak("It is good to meet you. You may call me Friend. Say my name or I will not know to respond to you", "UK English Male");
+    }
+    let nonsense =  function(){
+      speakFriend();
+    }
+    let commands = {
+      'Hello': helloResp,
+      'Hi': helloResp,
+      'I am *word': introductionResp,
+      'My name is *words': introductionResp,
+      'Friend *words':nonsense,
+      '*words Friend': nonsense,
+    }
+    annyang.addCommands(commands);
+    annyang.start();
+  }
 }
 
 function mousePressed(){
