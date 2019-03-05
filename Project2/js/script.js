@@ -15,7 +15,7 @@ let theWords;
 
 let halX;
 let halY;
-let halWidth = 250;
+let halWidth = 300;
 let halLayers = 100;
 let numDeco = 100;
 let decos = [];
@@ -97,7 +97,7 @@ function writeFriend(){
   textSize(20);
   fill(255);
   textFont(speechFont);
-  textX -= 3;
+  textX -= 1.5;
   text(speech,textX,textY);
   pop();
   console.log(textX);
