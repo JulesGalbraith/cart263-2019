@@ -1,3 +1,5 @@
+//Your Friend, the Postmodern Neo-Marxist Chatbot
+
 // variables holding various text files to be loaded into a model
 let dasKapital;
 let panopticism;
