@@ -24,6 +24,8 @@ let inEnvironment = false;
 let inHomescreen = true;
 
 let homescreenFont;
+let textX;
+let textY;
 
 function preload() {
   dasKapital = loadStrings("assets/marx.txt");
@@ -41,9 +43,12 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0, 220);
   createTxtModel();
+    talkBack();
+  textX = (width/4);
 }
 
 function draw() {
+
   background(0,4)
   if (inHomescreen) {
     drawHomescreen();
@@ -51,7 +56,7 @@ function draw() {
   else if (!inHomescreen) {
     rect(width,height)
     createFriend();
-    talkBack();
+    writeFriend();
     drawBackground();
   }
 
@@ -76,33 +81,37 @@ function speakFriend() {
     rate: 1
   }
   //generates individual sentences
-  speech = allThisBotKnows.generateSentences(random(1, 3));
+  speech = allThisBotKnows.generateSentences(random(1,2));
   //joins sentences together in a new variable to be given to the speech synthesizer
   joinedSpeech = speech.join("");
 
   //voice library speaks the newly created sentences
   responsiveVoice.speak(joinedSpeech, "UK English Male", voiceOptions);
 
-  push();
-  textSize(20);
-  fill(255,2);
-  textFont(speechFont);
-  text(joinedSpeech,random(0,width),random(0,height));
-  pop();
+  textY = random(halY-halWidth/2,halY+halWidth/2);
+  textX = random(0,width);
 }
 
+function writeFriend(){
+  push();
+  textSize(20);
+  fill(255);
+  textFont(speechFont);
+  textX -= 3;
+  text(speech,textX,textY);
+  pop();
+  console.log(textX);
+}
 function createFriend() {
 
   halX = width / 2;
   halY = height / 2;
 
-  let t = 1;
-
   for (i = 0; i < halLayers; i++) {
 
     push();
     noStroke();
-    fill(225, 14 + i, 14 + i, 250);
+    fill(225, 14 + i, 14 + i, 300);
     ellipse(halX - i / 2, halY - i / 2, halWidth - 2 * i);
     pop();
   }
@@ -161,11 +170,13 @@ function talkBack() {
 function speechToText(){
   push();
   textSize(20);
-  fill(255,2);
+  fill(255);
   textFont(speechFont);
-  text(theWords,random(0,width),random(0,height));
+  text(theWords,random(0,width/4),random(0,height));
   console.log(theWords);
   pop();
+
+  console.log("heeeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
 }
 
 function drawBackground() {
