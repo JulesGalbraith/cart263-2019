@@ -1,3 +1,4 @@
+//object class for the background decorative elements
 class Deco {
   constructor(x,y,size) {
     this.x = x;
@@ -12,8 +13,8 @@ class Deco {
 
 
 
+//objects' shade varies according to a noise function
 display() {
-
   this.colour = (noise(this.t)*255)*1.5;
   push();
   noStroke();
@@ -25,13 +26,13 @@ display() {
 
 }
 
+//determines movement of elements across the screen
 update() {
-
   this.setVelocity();
-
   this.x += this.vx;
   this.y += this.vy;
 
+//wraps elements to screen
   if (this.x > width) {
     this.vx = random(-this.speed,0)*this.vx;
   }
@@ -49,6 +50,7 @@ update() {
 
 
 setVelocity() {
+  //elements move according to a random velocity
   this.vx = random(-this.speed,this.speed);
   this.vy = random(-this.speed,this.speed);
 }

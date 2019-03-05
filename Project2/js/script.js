@@ -9,25 +9,32 @@ let altRight;
 //variable to hold the combined text files
 let allThisBotKnows;
 
+// variables holding words to be spoken by annyang
 let speech;
 let joinedSpeech;
 let theWords;
 
+//various coordinates belonging to the visuals - i'm nicknaming the red ball hal
 let halX;
 let halY;
 let halWidth = 300;
 let halLayers = 100;
+//the small white balls adding texture and movement to the environment
 let numDeco = 100;
 let decos = [];
 
-let inEnvironment = false;
+//tracks whether or not the homescreen is active
 let inHomescreen = true;
 
+//fonts for the various text elements
 let homescreenFont;
+let speechFont;
+//x and y coordinates for scrolling text
 let textX;
 let textY;
 
 function preload() {
+  //loads text files from which hal's language will be drawn, converts them to strings
   dasKapital = loadStrings("assets/marx.txt");
   nagle = loadStrings("assets/nagle.txt");
   panopticism = loadStrings("assets/panopticism.txt");
@@ -35,6 +42,7 @@ function preload() {
   clickbait = loadStrings("assets/clickbaitAgency.txt");
   altRight = loadStrings("assets/shapiroPeterson.txt");
 
+//loads fonts
   homescreenFont = loadFont("assets/Gill Sans Medium.otf");
   speechFont = loadFont("assets/inconsolata.ttf");
 }
@@ -42,21 +50,29 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0, 220);
+  //creates the language model for speech synthesis
   createTxtModel();
+  //sets voice commands and behaviour
     talkBack();
-  textX = (width/4);
+    //sets an initial x value for the scrolling text
+    textX = (width/4);
 }
 
 function draw() {
 
+//draws homescreen
   background(0,4)
   if (inHomescreen) {
     drawHomescreen();
   }
+  //on click, draws environment, 'hal', and initiates voice commands
   else if (!inHomescreen) {
-    rect(width,height)
+
+    //draws hal
     createFriend();
+    //hal's words appear as written text
     writeFriend();
+    //cute background decoration for a bit of visual dynamism
     drawBackground();
   }
 
@@ -88,10 +104,12 @@ function speakFriend() {
   //voice library speaks the newly created sentences
   responsiveVoice.speak(joinedSpeech, "UK English Male", voiceOptions);
 
+//sets x and y value for text that will scroll towards the left across the screen, passing over hal (for the sake of legibility)
   textY = random(halY-halWidth/2,halY+halWidth/2);
   textX = random(0,width);
 }
 
+//function making hal's speech appear as text
 function writeFriend(){
   push();
   textSize(20);
@@ -102,13 +120,15 @@ function writeFriend(){
   pop();
   console.log(textX);
 }
-function createFriend() {
 
+//draws hal
+function createFriend() {
+  //positions hal in middle of screen
   halX = width / 2;
   halY = height / 2;
 
+//draws a series of circles progressing to a more pale red, making hal appear dimensional
   for (i = 0; i < halLayers; i++) {
-
     push();
     noStroke();
     fill(225, 14 + i, 14 + i, 300);
@@ -117,9 +137,11 @@ function createFriend() {
   }
 }
 
+//commands and voice synthesis
 function talkBack() {
   if (annyang) {
 
+//sets the content of particular commands; variable theWords is consistently reset so that it can appear as text. this text, however, does not scroll (it is short enough to fit on screen)
     let helloResp = function() {
      theWords = "Hello there. Who are you?"
       responsiveVoice.speak(theWords, "UK English Male");
@@ -150,6 +172,7 @@ function talkBack() {
       speakFriend();
     }
 
+//matches the above responses to particular commands
     let commands = {
       'Hello': helloResp,
       'Hi': helloResp,
@@ -162,25 +185,25 @@ function talkBack() {
       'Friend *words': nonsense,
       '*words Friend': nonsense,
     }
+    //adds commands and initializes voice synthesis
     annyang.addCommands(commands);
     annyang.start();
   }
 }
 
+//separate function with the same effect of turning cached responses (rather than generated ones) into script. this does not scroll, but gradually fades
 function speechToText(){
   push();
   textSize(20);
   fill(255);
   textFont(speechFont);
-  text(theWords,random(0,width/4),random(0,height));
-  console.log(theWords);
+  //appears randomly on the screen
+  text(theWords,random(0,width/3),random(0,height));
   pop();
-
-  console.log("heeeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
 }
 
+//draws background elements; these are merely decorative
 function drawBackground() {
-
   let decoX = random(0, width);
   let decoY = random(0, height);
 
@@ -193,6 +216,7 @@ function drawBackground() {
   }
 }
 
+//draws homescreen text
 function drawHomescreen() {
   push();
   textSize(20);
@@ -206,8 +230,10 @@ function drawHomescreen() {
   pop();
 }
 
+//main environment can be entered when homescreen is clicked, in order to ensure annyang works
 function mousePressed() {
   if (inHomescreen) {
+    //draws a black rectancle to cover the last of the homescreen text
     push();
     fill(0);
     rectMode(CENTER);
