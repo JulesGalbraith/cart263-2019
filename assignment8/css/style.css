@@ -1,0 +1,25 @@
+body {
+  display:block;
+}
+
+#test {
+  position : absolute;
+  margin-left: 30%;
+  margin-top: 30%;
+
+
+  font-size: 10;
+  font-family: monospace;
+  color: red;
+  z-index:  100;
+}
+
+#testparagraph {
+  position : absolute;
+
+
+  font-size: 200;
+  font-family: monospace;
+  color: red;
+  z-index: 300;
+}
