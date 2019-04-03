@@ -1,5 +1,15 @@
 body {
   display:block;
+  z-index: 300;
+}
+
+#text{
+  width:100%;
+  height:100%
+
+}
+.hesiod{
+  font-family:monospace;
 }
 
 #test {
