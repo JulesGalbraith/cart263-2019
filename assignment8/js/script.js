@@ -34,6 +34,7 @@ function loadText(){
 }
 
 function addButton(){
+
 $button = $('<button class=hesiod></button>')
 $button.attr('string');
  sentence = buttonText[Math.floor(Math.random() * buttonText.length)];
@@ -46,8 +47,14 @@ $button.attr('string');
     top: Math.random() * ($(window).height() - $button.height()),
     left: Math.random() * ($(window).width() - $button.width())
   });
+
+	$button.on("click", removeButton);
 }
 
+function removeButton(){
+	$('button').remove()
+	addButton();
+}
 function sceneSetup() {
 
   //creates a renderer for a 3d environment, permits alpha values

@@ -26,9 +26,7 @@ body {
 
 #testparagraph {
   position : absolute;
-
-
-  font-size: 200;
+  font-size: 30px;
   font-family: monospace;
   color: red;
   z-index: 300;
