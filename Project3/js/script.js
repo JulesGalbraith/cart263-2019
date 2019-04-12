@@ -179,7 +179,7 @@ console.log(figures.length);
     controls.enabled = true;
   })
   dragControls.addEventListener('drag', function(e){
-    figures[e.object.name].position.set(e.object.position.x,e.object.position.y,e.object.position.z-120);
+    figures[e.object.name].position.set(e.object.position.x,e.object.position.y,e.object.position.z);
     console.log(figures[e.object.name].position.x);
   })
 }
@@ -194,40 +194,43 @@ function loadAllObjects() {
   me1 = objLoader.load('jules1.obj', function(me1) {
     //my models are a bit small - i'm resizing them. it takes a vector rather than a percentage
     me1.scale.set(10, 10, 10);
-    //adds model to scene
-    me1.position.set(spheres[0].position.x,spheres[0].position.y,spheres[0].position.z-120);
-
+//binds model to the position of an invisible sphere. I was having trouble getting drag controls to work on the models- sabine and i came to the conclusion that
+//this was because a loded model does not correspond to one, but is comprised of many, meshes, which confuses drag controls. binding obj to sphere mesh
+//is a bit of a work-around, allowing me to select and drag a simple mesh and by proxy move the model
+    me1.position.set(spheres[0].position.x,spheres[0].position.y,spheres[0].position.z);
+//adds models to scene and to an array holding all models
     scene.add(me1);
     figures.push(me1);
   });
   //
-  // me2 = objLoader.load('jules2.obj', function(me2) {
-  //   //rotates the model with reference to the origin, which is a bit annoying.
-  //   me2.rotateZ(THREE.Math.degToRad(-60));
-  //   me2.rotateX(THREE.Math.degToRad(-60));
-  //   me2.scale.set(10, 10, 10);
-  //   scene.add(me2);
-  //   figures.push(me2);
-  // });
-  //
-  // me3 = objLoader.load('jules3.obj', function(me3) {
-  //   me3.scale.set(10, 10, 10);
-  //   scene.add(me3);
-  //   figures.push(me3);
-  // });
-  //
-  // me4 = objLoader.load('jules4.obj', function(me4) {
-  //   me4.scale.set(10, 10, 10);
-  //   me4.rotateZ(THREE.Math.degToRad(-90));
-	//   me4.rotateX(THREE.Math.degToRad(30));
-  //   scene.add(me4);
-  //   figures.push(me4);
-  // });
-  //
-  // me5 = objLoader.load('jules5.obj', function(me5) {
-  //   me5.scale.set(10, 10, 10);
-  //   scene.add(me5);
-  //   figures.push(me5);
+  me2 = objLoader.load('jules2.obj', function(me2) {
+    me1.position.set(spheres[1].position.x,spheres[1].position.y,spheres[1].position.z);
+
+    me2.scale.set(10, 10, 10);
+    scene.add(me2);
+    figures.push(me2);
+  });
+
+  me3 = objLoader.load('jules3.obj', function(me3) {
+    me3.scale.set(10, 10, 10);
+    me1.position.set(spheres[2].position.x,spheres[2].position.y,spheres[2].position.z);
+
+    scene.add(me3);
+    figures.push(me3);
+  });
+
+  me4 = objLoader.load('jules4.obj', function(me4) {
+    me4.scale.set(10, 10, 10);
+    me1.position.set(spheres[3].position.x,spheres[3].position.y,spheres[3].position.z);
+    scene.add(me4);
+    figures.push(me4);
+  });
+
+  me5 = objLoader.load('jules5.obj', function(me5) {
+    me5.scale.set(10, 10, 10);
+      me1.position.set(spheres[4].position.x,spheres[4].position.y,spheres[4].position.z);
+    scene.add(me5);
+    figures.push(me5);
 
   // });
 }
