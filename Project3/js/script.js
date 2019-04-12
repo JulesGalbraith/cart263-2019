@@ -24,7 +24,7 @@ window.onload = function() {
 
   sceneSetup();
   createMouse();
- addSpheres();
+  addSpheres();
   loadAllObjects();
   // animates the program, allowing us to navigate with simple mousepad gestures
   animate();
@@ -121,13 +121,15 @@ function sceneSetup() {
 
 function addSpheres(){
   for (let i=0;i<9;i++){
-    let geometry = new THREE.SphereGeometry(5,5,5,5);
+    let geometry = new THREE.SphereGeometry(15,15,15,15);
     let mesh = new THREE.MeshBasicMaterial({color: white, transparent: true, opacity: 0.5});
 
     let sphere = new THREE.Mesh(geometry,mesh);
 
+    sphere.name = i;
     sphere.position.set(200,10,THREE.Math.mapLinear(i,0,9,-200,200));
     scene.add(sphere);
+
     spheres.push(sphere);
 
 console.log(spheres.length);
@@ -170,12 +172,15 @@ function addDragControls(){
 
 console.log(figures.length);
   dragControls.addEventListener('dragstart', function(){
-    console.log('dragging');
     controls.enabled = false;
   })
   dragControls.addEventListener('dragend',function(){
     console.log('nolongerdragging');
     controls.enabled = true;
+  })
+  dragControls.addEventListener('drag', function(e){
+    figures[e.object.name].position.set(e.object.position.x,e.object.position.y,e.object.position.z-120);
+    console.log(figures[e.object.name].position.x);
   })
 }
 
@@ -187,55 +192,52 @@ function loadAllObjects() {
 
   //these are 3d scans of myself and a friend, edited to an extent in blender to remove extraneous artefacts
   me1 = objLoader.load('jules1.obj', function(me1) {
-    //sets position with reference to the origin point
-    me1.position.set = (50, 50, 50);
     //my models are a bit small - i'm resizing them. it takes a vector rather than a percentage
     me1.scale.set(10, 10, 10);
     //adds model to scene
+    me1.position.set(spheres[0].position.x,spheres[0].position.y,spheres[0].position.z-120);
+
     scene.add(me1);
     figures.push(me1);
   });
+  //
+  // me2 = objLoader.load('jules2.obj', function(me2) {
+  //   //rotates the model with reference to the origin, which is a bit annoying.
+  //   me2.rotateZ(THREE.Math.degToRad(-60));
+  //   me2.rotateX(THREE.Math.degToRad(-60));
+  //   me2.scale.set(10, 10, 10);
+  //   scene.add(me2);
+  //   figures.push(me2);
+  // });
+  //
+  // me3 = objLoader.load('jules3.obj', function(me3) {
+  //   me3.scale.set(10, 10, 10);
+  //   scene.add(me3);
+  //   figures.push(me3);
+  // });
+  //
+  // me4 = objLoader.load('jules4.obj', function(me4) {
+  //   me4.scale.set(10, 10, 10);
+  //   me4.rotateZ(THREE.Math.degToRad(-90));
+	//   me4.rotateX(THREE.Math.degToRad(30));
+  //   scene.add(me4);
+  //   figures.push(me4);
+  // });
+  //
+  // me5 = objLoader.load('jules5.obj', function(me5) {
+  //   me5.scale.set(10, 10, 10);
+  //   scene.add(me5);
+  //   figures.push(me5);
 
-  me2 = objLoader.load('jules2.obj', function(me2) {
-    me2.position.set = (-50, 50, 50);
-    me2.position.z = 40;
-    //rotates the model with reference to the origin, which is a bit annoying.
-    me2.rotateZ(THREE.Math.degToRad(-60));
-    me2.rotateX(THREE.Math.degToRad(-60));
-    me2.scale.set(10, 10, 10);
-    scene.add(me2);
-    figures.push(me2);
-  });
-
-  me3 = objLoader.load('jules3.obj', function(me3) {
-    me3.position.set(-50, 100, -70);
-
-    me3.position.x = 20;
-    me3.position.z = 10;
-    me3.scale.set(10, 10, 10);
-    scene.add(me3);
-    figures.push(me3);
-  });
-
-  me4 = objLoader.load('jules4.obj', function(me4) {
-    me4.position.set(-150, 100, 100);
-    me4.scale.set(10, 10, 10);
-    me4.rotateZ(THREE.Math.degToRad(-90));
-	  me4.rotateX(THREE.Math.degToRad(30));
-    scene.add(me4);
-    figures.push(me4);
-  });
-
-  me5 = objLoader.load('jules5.obj', function(me5) {
-    me5.position.set(100, 100, -150);
-    me5.scale.set(10, 10, 10);
-    scene.add(me5);
-    figures.push(me5);
-
-  });
-
-
+  // });
 }
+
+function bindObjToSphere(){
+  for (let i=0;i<figures.length;i++){
+  figures[i].position.set(spheres[i].position);
+  }
+}
+
 //animate function
 function animate() {
   if (loaded === false){
