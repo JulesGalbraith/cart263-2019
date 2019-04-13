@@ -121,13 +121,13 @@ function sceneSetup() {
 
 function addSpheres(){
   for (let i=0;i<9;i++){
-    let geometry = new THREE.SphereGeometry(15,15,15,15);
-    let mesh = new THREE.MeshBasicMaterial({color: white, transparent: true, opacity: 0.5});
+    let geometry = new THREE.SphereGeometry(30,30,30,30);
+    let mesh = new THREE.MeshBasicMaterial({color: white, transparent: true, opacity: 0.2});
 
     let sphere = new THREE.Mesh(geometry,mesh);
 
     sphere.name = i;
-    sphere.position.set(200,10,THREE.Math.mapLinear(i,0,9,-200,200));
+    sphere.position.set(200,10,THREE.Math.mapLinear(i,0,9,-250,250));
     scene.add(sphere);
 
     spheres.push(sphere);
@@ -186,10 +186,9 @@ console.log(figures.length);
 
 function loadAllObjects() {
 
-  //test object- i found a bush from a free obj site
+//creates a new loader, responsible for loading all models, and sets the destination folder in which they are found.
   objLoader = new THREE.OBJLoader();
   objLoader.setPath('Assets/OBJ/');
-
   //these are 3d scans of myself and a friend, edited to an extent in blender to remove extraneous artefacts
   me1 = objLoader.load('jules1.obj', function(me1) {
     //my models are a bit small - i'm resizing them. it takes a vector rather than a percentage
@@ -204,8 +203,7 @@ function loadAllObjects() {
   });
   //
   me2 = objLoader.load('jules2.obj', function(me2) {
-    me1.position.set(spheres[1].position.x,spheres[1].position.y,spheres[1].position.z);
-
+    me2.position.set(spheres[1].position.x,spheres[1].position.y,spheres[1].position.z);
     me2.scale.set(10, 10, 10);
     scene.add(me2);
     figures.push(me2);
@@ -213,26 +211,48 @@ function loadAllObjects() {
 
   me3 = objLoader.load('jules3.obj', function(me3) {
     me3.scale.set(10, 10, 10);
-    me1.position.set(spheres[2].position.x,spheres[2].position.y,spheres[2].position.z);
-
+    me3.position.set(spheres[2].position.x,spheres[2].position.y,spheres[2].position.z);
     scene.add(me3);
     figures.push(me3);
   });
 
   me4 = objLoader.load('jules4.obj', function(me4) {
     me4.scale.set(10, 10, 10);
-    me1.position.set(spheres[3].position.x,spheres[3].position.y,spheres[3].position.z);
+    me4.position.set(spheres[3].position.x,spheres[3].position.y,spheres[3].position.z);
     scene.add(me4);
     figures.push(me4);
   });
 
   me5 = objLoader.load('jules5.obj', function(me5) {
     me5.scale.set(10, 10, 10);
-      me1.position.set(spheres[4].position.x,spheres[4].position.y,spheres[4].position.z);
+    me5.position.set(spheres[4].position.x,spheres[4].position.y,spheres[4].position.z);
     scene.add(me5);
     figures.push(me5);
-
-  // });
+  });
+  liane1 = objLoader.load('liane1.obj', function(liane1) {
+    liane1.scale.set(10, 10, 10);
+      liane1.position.set(spheres[5].position.x,spheres[5].position.y,spheres[5].position.z);
+    scene.add(liane1);
+    figures.push(liane1);
+  });
+  liane2 = objLoader.load('liane2.obj', function(liane2) {
+    liane2.scale.set(10, 10, 10);
+      liane2.position.set(spheres[6].position.x,spheres[6].position.y,spheres[6].position.z);
+    scene.add(liane2);
+    figures.push(liane2);
+  });
+  liane3 = objLoader.load('liane3.obj', function(liane3) {
+    liane3.scale.set(10, 10, 10);
+      liane3.position.set(spheres[7].position.x,spheres[7].position.y,spheres[7].position.z);
+    scene.add(liane3);
+    figures.push(liane3);
+  });
+  liane4 = objLoader.load('liane4.obj', function(liane4) {
+    liane4.scale.set(10, 10, 10);
+      liane4.position.set(spheres[8].position.x,spheres[8].position.y,spheres[8].position.z);
+    scene.add(liane4);
+    figures.push(liane4);
+  });
 }
 
 function bindObjToSphere(){
