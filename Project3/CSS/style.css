@@ -12,6 +12,12 @@ body {
   font-family:monospace;
 }
 
+.progress{
+  position: absolute;
+  z-index: 300;
+  margin-left: 20%;
+  margin-top:20%
+}
 #test {
   position : absolute;
   margin-left: 30%;

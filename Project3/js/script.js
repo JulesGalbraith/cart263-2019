@@ -206,8 +206,6 @@ function addDragControls() {
   })
   dragControls.addEventListener('drag', function(e) {
     figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
-    console.log(e.object.name);
-    console.log(figures[e.object.name]);
   })
 }
 
@@ -226,13 +224,15 @@ function loadAllObjects() {
     console.log(progress + "%");
 
     let newButton = function() {
-      $('button').remove();
-      $('#text').append($progressText);
+      $('.progress').empty();
+      $progressText.append('<p>' + 'Loading' + progress + "%" + '</p>');
+
     }
-    setTimeout(newButton, 5);
+    setTimeout(newButton, 10);
   }
 
   manager.onLoad = function() {
+    $('.progress').remove();
     addObjects();
     loadText();
   }
@@ -280,7 +280,6 @@ function loadAllObjects() {
 }
 
 function addObjects() {
-  console.log("well hi")
   for (let i = 0; i < figures.length; i++) {
     figures[i].traverse(function(child) {
       if (child instanceof THREE.Mesh) {
