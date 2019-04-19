@@ -7,7 +7,7 @@ let botText;
 
 $(document).ready(function(){
   addUserText();
-loadText();
+greeting();
 console.log('yo');
 });
 
@@ -20,6 +20,10 @@ function loadText() {
   });
 }
 
+function greeting(){
+  let botgreeting = $("<p id='botInput'>" +"They: Hello " + "</p>");
+  $('#chatLog').append(botgreeting);
+}
  function addBotText(){
    botText = output[Math.floor(Math.random() * output.length)];
    let botSentence = $("<p id='botInput'>" +"They: "+ botText +"</p>");

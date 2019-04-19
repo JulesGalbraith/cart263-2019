@@ -1,5 +1,6 @@
 body {
   display:block;
+  margin:0;
   z-index: 300;
 }
 
@@ -15,8 +16,12 @@ body {
 .progress{
   position: absolute;
   z-index: 300;
-  margin-left: 20%;
-  margin-top:20%
+  margin-left: 10%;
+  margin-top:15%;
+  background-color: lime;
+  border-style: outset;
+  border-radius: 30%;
+  font-family: monospace;
 }
 #test {
   position : absolute;
@@ -24,7 +29,7 @@ body {
   margin-top: 30%;
 
 
-  font-size: 10;
+  font-size: 15;
   font-family: monospace;
   color: red;
   z-index:  100;

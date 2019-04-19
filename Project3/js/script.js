@@ -7,13 +7,16 @@ let objLoader, imgLoader;
 let mouse, raycaster, mouseX, mouseY, intersects;
 let white, black, robinBlue, lavender;
 
-
+let landmesh, landscape, verticeHeight;
+let simplex = new SimplexNoise();
+let figScale = 30;
 let figures = [];
 let spheres = [];
 let me1, me2, me3, me4, me5, liane1, liane2, liane3, liane4;
 
 let buttonText = [],
   $button, sentence;
+
 
 let degree = 0;
 let loaded = false;
@@ -65,7 +68,6 @@ function removeButton() {
 }
 
 function sceneSetup() {
-
   //creates a renderer for a 3d environment, permits alpha values
   renderer = new THREE.WebGLRenderer({
     alpha: true
@@ -88,7 +90,6 @@ function sceneSetup() {
   //i love that this is a function, and I assume it is assuring that my scene is essentially always in view, rather than having to manually
   //point the camera at the scene
   camera.lookAt(scene.position);
-
 
   //creates mousepad and keyboard controls, enabling scene navigation. arrow keys, by default, pan; mousepad can be clicked and dragged to orbit;
   //two finger or scrollwheel zooms. this code is from a tutorial video on youtube. damping, apparently, is a function of 'inertia' that
@@ -118,7 +119,7 @@ function sceneSetup() {
 
   pointLight3 = new THREE.PointLight(daffodil);
   pointLight3.position.set(0, 200, 0);
-  pointLight3.intensity = 3;
+//  pointLight3.intensity = 3;
   scene.add(pointLight3);
 
   let pointLight4 = new THREE.PointLight(daffodil);
@@ -136,9 +137,8 @@ function sceneSetup() {
   //sets background colour
   renderer.setClearColor(black);
   //creates a floor
-  floor = new THREE.GridHelper(500, 30, white, robinBlue);
-  scene.add(floor);
-
+  //floor = new THREE.GridHelper(500, 30, white, robinBlue);
+  addLandscape();
 }
 
 function addSpheres() {
@@ -153,7 +153,7 @@ function addSpheres() {
     let sphere = new THREE.Mesh(geometry, mesh);
 
     sphere.name = i;
-    sphere.position.set(200, 50, THREE.Math.mapLinear(i, 0, 9, -250, 250));
+    sphere.position.set(200, 50, THREE.Math.mapLinear(i, 0, 9, -700, 700));
     scene.add(sphere);
 
     spheres.push(sphere);
@@ -209,12 +209,31 @@ function addDragControls() {
   })
 }
 
+function addLandscape(){
+  let numSegments = 50;
+  let material = new THREE.MeshBasicMaterial({
+    opacity: 0.2,
+    color: robinBlue,
+    wireframe:true
+  });
+landmesh = new THREE.PlaneGeometry(2000,3000,numSegments/2,numSegments);
+
+ for (let i=0;i<landmesh.vertices.length;i++){
+   let noise = simplex.noise2D(i,i)/2
+    verticeHeight = THREE.Math.mapLinear(noise,0,1,-50,200)
+   landmesh.vertices[i].z = verticeHeight;
+   console.log(verticeHeight);
+ }
+
+ landscape = new THREE.Mesh(landmesh, material);
+ landscape.rotateX(THREE.Math.degToRad(90));
+ scene.add(landscape);
+}
+
 function loadAllObjects() {
 
   //creates a new loader, responsible for loading all models, and sets the destination folder in which they are found.
-
   let manager = new THREE.LoadingManager();
-
   manager.onProgress = function(url, itemsLoaded, itemsLoading) {
     let progress = (itemsLoaded / itemsLoading) * 100;
     let $progressText = $('<button class=progress></button>');
@@ -225,7 +244,7 @@ function loadAllObjects() {
 
     let newButton = function() {
       $('.progress').empty();
-      $progressText.append('<p>' + 'Loading' + progress + "%" + '</p>');
+      $progressText.append('<p>' + 'Loading ' + progress + "%" + '</p>');
 
     }
     setTimeout(newButton, 10);
@@ -289,7 +308,7 @@ function addObjects() {
         child.receiveShadow = true;
       }
     });
-    figures[i].scale.set(12, 12, 12);
+    figures[i].scale.set(figScale,figScale,figScale);
     //binds model to the position of an invisible sphere. I was having trouble getting drag controls to work on the models- sabine and i came to the conclusion that
     //this was because a loded model does not correspond to one, but is comprised of many, meshes, which confuses drag controls. binding obj to sphere mesh
     //is a bit of a work-around, allowing me to select and drag a simple mesh and by proxy move the model
@@ -302,7 +321,7 @@ function rotateObjets() {
   degree = THREE.Math.degToRad(0);
   for (let i = 0; i < figures.length; i++) {
     figures[i].rotateY(degree);
-    degree += 0.001;
+    degree += 0.005;
   }
 }
 //animate function
