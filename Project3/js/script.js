@@ -25,8 +25,10 @@ let loadingManager, dragControls;
 
 let dragging = false;
 
-window.onload = function() {
+let inChat = false;
 
+window.onload = function() {
+  $(".chatBox").hide();
   sceneSetup();
   createMouse();
   addSpheres();
@@ -153,7 +155,7 @@ function addSpheres() {
     let sphere = new THREE.Mesh(geometry, mesh);
 
     sphere.name = i;
-    sphere.position.set(200, 50, THREE.Math.mapLinear(i, 0, 9, -700, 700));
+    sphere.position.set(200, 50, THREE.Math.mapLinear(i, 0, 9, -1300, 1300));
     scene.add(sphere);
 
     spheres.push(sphere);
@@ -219,8 +221,8 @@ function addLandscape(){
 landmesh = new THREE.PlaneGeometry(2000,3000,numSegments/2,numSegments);
 
  for (let i=0;i<landmesh.vertices.length;i++){
-   let noise = simplex.noise2D(i,i)/2
-    verticeHeight = THREE.Math.mapLinear(noise,0,1,-50,200)
+   let noise = simplex.noise2D(i,50)
+    verticeHeight = THREE.Math.mapLinear(noise,0,1,0,200)
    landmesh.vertices[i].z = verticeHeight;
    console.log(verticeHeight);
  }

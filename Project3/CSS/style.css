@@ -23,22 +23,64 @@ body {
   border-radius: 30%;
   font-family: monospace;
 }
-#test {
-  position : absolute;
-  margin-left: 30%;
-  margin-top: 30%;
-
-
-  font-size: 15;
-  font-family: monospace;
-  color: red;
-  z-index:  100;
-}
 
 #testparagraph {
   position : absolute;
-  font-size: 14px;
+  font-size: 18px;
   font-family: monospace;
   color: red;
   z-index: 300;
+}
+
+#chatWrapper{
+  display: block;
+  background-color: lavender;
+  width: 450px;
+  height: 500px;
+  border-style: ridge;
+  border-width: thick;
+  border-color: rgb(211, 255, 216);
+}
+
+#close, #send{
+  font-family: monospace;
+  margin-left:85%;
+}
+
+#chatLog{
+  border-style:inset;
+  border-color: lavender;
+  border-width: thick;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  height: 315px;
+  background-color: black;
+  overflow:scroll;
+}
+
+#userInput, #botInput{
+  display: block;
+  font-size: 20px;
+  font-family:monospace;
+}
+
+#userInput{
+  color: lavender;
+}
+
+#botInput{
+  color: lime;
+}
+
+#message{
+  display:block;
+  width: 425px;
+  margin: 10px;
+}
+
+#send{
+  color: rgb(211, 255, 216);
+  background-color: darkgrey;
+  border-width: medium;
 }
