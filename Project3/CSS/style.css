@@ -32,11 +32,21 @@ body {
   z-index: 300;
 }
 
-#chatWrapper{
+.chatBox{
+  position:absolute;
   display: block;
+  z-index: 300;
+
+}
+#chatWrapper{
+  position:relative;
+  display: none;
   background-color: lavender;
-  width: 450px;
-  height: 500px;
+  z-index: inherit;
+  margin-top:30%;
+  margin-left:70%;
+  width: 400px;
+  height: 450px;
   border-style: ridge;
   border-width: thick;
   border-color: rgb(211, 255, 216);
@@ -54,7 +64,7 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   padding: 10px;
-  height: 315px;
+  height: 270px;
   background-color: black;
   overflow:scroll;
 }
@@ -75,7 +85,7 @@ body {
 
 #message{
   display:block;
-  width: 425px;
+  width: 370px;
   margin: 10px;
 }
 

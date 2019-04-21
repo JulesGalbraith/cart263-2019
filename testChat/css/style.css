@@ -41,7 +41,7 @@
 
 #message{
   display:block;
-  width: 425px;
+  z-index: inherit;
   margin: 10px;
 }
 

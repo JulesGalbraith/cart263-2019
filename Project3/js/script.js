@@ -30,11 +30,12 @@ let dragging = false;
 let inChat = false;
 
 window.onload = function() {
-  $(".chatBox").hide();
+  console.log(window.innerWidth);
+  $("#chatWrapper").hide();
   sceneSetup();
   createMouse();
   addSpheres();
-  loadAllObjects();
+  //loadAllObjects();
   //createParticles();
   // animates the program, allowing us to navigate with simple mousepad gestures
   animate();
@@ -71,17 +72,21 @@ function addUserText() {
 }
 
 function placeChat() {
-  $(".chatBox").parent().offset({
-    top: Math.random() * ($(window).height() - $button.height()),
-    left: Math.random() * ($(window).width() - $button.width())
-  });
-  $(".chatBox").show();
+   $("#chatWrapper").offset({
+    top: Math.random() * ($(window).innerWidth -$("#chatWrapper").height()),
+    left: Math.random() * ($(window).innerHeight - $("#chatWrapper").width())
+ });
+  console.log("are you working");
+    $(".chatBox").append($('#chatWrapper'))
+    $('#chatWrapper').show();
   greeting();
+  $("#close").on('click',removeChat);
 }
 
 function removeChat() {
-  $('.chatBox').remove()
+  $('#chatWrapper').hide()
   $("#chatLog").empty();
+  inChat = false;
 }
 
 function sceneSetup() {
@@ -111,7 +116,6 @@ function sceneSetup() {
   //creates mousepad and keyboard controls, enabling scene navigation. arrow keys, by default, pan; mousepad can be clicked and dragged to orbit;
   //two finger or scrollwheel zooms. this code is from a tutorial video on youtube. damping, apparently, is a function of 'inertia' that
   //creats a sense of 'weight' for the controls.
-
   controls = new THREE.OrbitControls(camera);
   controls.enableDamping = true;
   controls.dampingfactor = 0.25;
@@ -155,6 +159,8 @@ function sceneSetup() {
   addLandscape();
 }
 
+//i was having trouble selecting the loaded objects in order to manipulate them, so- as per two different people's suggestions- i created an array of simple
+//meshes to bind them to positionally
 function addSpheres() {
   for (let i = 0; i < 9; i++) {
     let geometry = new THREE.SphereGeometry(100, 100, 50, 50);
@@ -167,15 +173,18 @@ function addSpheres() {
     let sphere = new THREE.Mesh(geometry, mesh);
 
     sphere.name = i;
+    //sets them up to stretch horizontally across my landscape
     sphere.position.set(200, 50, THREE.Math.mapLinear(i, 0, 9, -1300, 1300));
     scene.add(sphere);
 
     spheres.push(sphere);
-
+//drag controls exist with reference to these spheres.
     addDragControls();
   }
 }
 
+//render functions seem to be necessary for all 3js scenes. i made this in a function separate from my animate() in an effort
+//to make raycasting more simple.
 function renderScene() {
   // update the picking ray with the camera and mouse position
   raycaster.setFromCamera(mouse, camera);
@@ -183,6 +192,7 @@ function renderScene() {
   renderer.render(scene, camera);
 }
 
+//sets a vector value to mouse position, to be activated when mouse moves
 function createMouse() {
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
@@ -197,47 +207,65 @@ function raycast() {
   for (var i = 0; i < intersects.length; i++) {}
 }
 
+//calculates mouse position
 function onMouseMove(e) {
   e.preventDefault();
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 }
 
+//after all the trouble i went to with the raycaster- turns out there's a pretty simple dragControls function. only works with meshes, though.
 function addDragControls() {
+  //only affects the spheres.
   dragControls = new THREE.DragControls(spheres, camera, renderer.domElement);
 
+//disables the navigation controls when a figure is being dragged
   dragControls.addEventListener('dragstart', function() {
     controls.enabled = false;
   })
+
+  //re-enables navigation controls and, if no chat box is open, initializes and places the chat box.
   dragControls.addEventListener('dragend', function() {
     console.log('nolongerdragging');
     controls.enabled = true;
     if (!inChat) {
-      placeChat();
       inChat = true;
+      placeChat();
     }
   })
+
+  //listens to whatever object is being dragged (spheres), and assigns the corresponding object (the figure in the same array position
+  //as a givevn sphere) to move along with it
   dragControls.addEventListener('drag', function(e) {
-    figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
+  //  figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
   })
 }
 
+//creates a modulates, slighly spiky wireframe landscape
 function addLandscape() {
+  //number of segments in the plane, defining by proxy the number of vertices
   let numSegments = 50;
   let material = new THREE.MeshBasicMaterial({
     opacity: 0.2,
     color: robinBlue,
+    //i have the sense that this setting canceled out the previous two. creates a wireframe rather than a continuous plane.
     wireframe: true
   });
-  landmesh = new THREE.PlaneGeometry(2000, 3000, numSegments / 2, numSegments);
-
+  landmesh = new THREE.PlaneGeometry(1000, 2000, numSegments / 2, numSegments);
+//sets the vertices of what would otherwise be a rectangular plane to vary according to a noise function. threejs doens't have noise built in- this is an external
+//library which generates a slighly more rudimentary version of noise- simplex rather than perlin. er- i'm not fully clear on the difference.
   for (let i = 0; i < landmesh.vertices.length; i++) {
+  //the two parameters here are meant to define a vertex. i altered these values a few times and didn't really notice a difference.
     let noise = simplex.noise2D(i, 50)
+    //maps the value onto a larger range
     verticeHeight = THREE.Math.mapLinear(noise, 0, 1, 0, 200)
+    //sets each vertice to a different but related level, exaggerated by the map function above.
     landmesh.vertices[i].z = verticeHeight;
   }
 
+//creates a mesh from the wireframe and geometry.
   landscape = new THREE.Mesh(landmesh, material);
+  //lays it flat- relative to my objects, that is. planes geometries tend to appear perpendicular to a horizontal origin plane
   landscape.rotateX(THREE.Math.degToRad(90));
   scene.add(landscape);
 }
@@ -408,7 +436,7 @@ function moveParticles() {
 function animate() {
   //i'm not sure what this does - the code is in every threejs example.it seems that it is necessary for movement
   requestAnimationFrame(animate);
-  rotateObjets();
+//  rotateObjets();
   //moveParticles();
   //ensures the continuous use of mousepad controls to navigate around the scene
   renderScene();
