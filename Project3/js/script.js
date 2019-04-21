@@ -13,6 +13,9 @@ let figScale = 30;
 let figures = [];
 let spheres = [];
 let me1, me2, me3, me4, me5, liane1, liane2, liane3, liane4;
+let particles =[];
+let particle,particleGeo,particleMat;
+let particlesLength = 3000;
 
 let buttonText = [],
   $button, sentence;
@@ -33,6 +36,7 @@ window.onload = function() {
   createMouse();
   addSpheres();
   loadAllObjects();
+ createParticles();
   // animates the program, allowing us to navigate with simple mousepad gestures
   animate();
 };
@@ -40,7 +44,6 @@ window.onload = function() {
 function loadText() {
   $.get("Assets/theogon.txt", function(data) {
     buttonText = data.split("\n");
-    console.log(buttonText[0]);
 
     addButton();
   })
@@ -88,7 +91,7 @@ function sceneSetup() {
     0.1, // Near plane
     10000 // Far plane
   );
-  camera.position.set(0, 50, 300);
+  camera.position.set(-2000, 500, 0);
   //i love that this is a function, and I assume it is assuring that my scene is essentially always in view, rather than having to manually
   //point the camera at the scene
   camera.lookAt(scene.position);
@@ -145,11 +148,11 @@ function sceneSetup() {
 
 function addSpheres() {
   for (let i = 0; i < 9; i++) {
-    let geometry = new THREE.SphereGeometry(50, 50, 50, 50);
+    let geometry = new THREE.SphereGeometry(100, 100, 50, 50);
     let mesh = new THREE.MeshBasicMaterial({
       color: white,
       transparent: true,
-      opacity: 0.1
+      opacity: 0.5
     });
 
     let sphere = new THREE.Mesh(geometry, mesh);
@@ -160,7 +163,6 @@ function addSpheres() {
 
     spheres.push(sphere);
 
-    console.log(spheres.length);
     addDragControls();
   }
 }
@@ -184,8 +186,7 @@ function raycast() {
   // calculate objects intersecting the picking ray
   intersects = raycaster.intersectObjects(figures, true);
   for (var i = 0; i < intersects.length; i++) {
-    //console.log(intersects[i]);
-    //console.log("hello");
+
   }
 }
 
@@ -198,7 +199,6 @@ function onMouseMove(e) {
 function addDragControls() {
   dragControls = new THREE.DragControls(spheres, camera, renderer.domElement);
 
-  console.log(figures.length);
   dragControls.addEventListener('dragstart', function() {
     controls.enabled = false;
   })
@@ -224,7 +224,6 @@ landmesh = new THREE.PlaneGeometry(2000,3000,numSegments/2,numSegments);
    let noise = simplex.noise2D(i,50)
     verticeHeight = THREE.Math.mapLinear(noise,0,1,0,200)
    landmesh.vertices[i].z = verticeHeight;
-   console.log(verticeHeight);
  }
 
  landscape = new THREE.Mesh(landmesh, material);
@@ -326,13 +325,44 @@ function rotateObjets() {
     degree += 0.005;
   }
 }
+
+function createParticles(){
+  particleGeo = new THREE.Geometry();
+
+  for (let i=0; i<particlesLength;i++){
+     particle = new THREE.Vector3();
+    particle.x = THREE.Math.randFloatSpread( 3000 );
+    particle.y = THREE.Math.randFloatSpread( 3000 );
+    particle.z=THREE.Math.randFloatSpread( 3000 );
+console.log("hello");
+    particleGeo.vertices.push(particle);
+
+
+  }
+  particleMat = new THREE.PointsMaterial();
+  particles = new THREE.Points(particleGeo,particleMat);
+  scene.add(particles);
+  console.log("hi");
+}
+
+function moveParticles(){
+  for (let i=0; i<particlesLength;i++){
+  let  randInterval = Math.random();
+  let randVect = THREE.Math.mapLinear(randInterval,0,1,-30,30);
+    particleGeo.vertices[i].y +=+ randVect;
+    particleGeo.vertices[i].x += randVect;
+    particleGeo.vertices[i].z += randVect;
+    randVect += 0.1;
+  //  console.log(particleGeo.vertices[20].z);
+  }
+  particleGeo.verticesNeedUpdate = true;
+}
 //animate function
 function animate() {
   //i'm not sure what this does - the code comes from a threejs example
   requestAnimationFrame(animate);
   rotateObjets();
-
+  moveParticles();
   //ensures the continuous use of mousepad controls to navigate around the scene
   renderScene();
-
 }
