@@ -87,6 +87,7 @@ body {
   display:block;
   width: 370px;
   margin: 10px;
+  user-select:text;
 }
 
 #send{

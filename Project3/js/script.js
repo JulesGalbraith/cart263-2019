@@ -17,7 +17,7 @@ let particles = [];
 let particle, particleGeo, particleMat;
 let particlesLength = 3000;
 
-let output, botGreeting, botText, botSentence;
+let input, userText, output, botGreeting, botText, botSentence;
 
 
 let degree = 0;
@@ -62,6 +62,7 @@ function addBotText() {
 
 function addUserText() {
   $('#send').on("click", function() {
+    console.log("yello");
     input = $("#message").val();
     userText = $("<p id='userInput'>" + "I: " + input + "</p>");
     $('#chatLog').append(userText);
@@ -76,17 +77,18 @@ function placeChat() {
     top: Math.random() * ($(window).innerWidth -$("#chatWrapper").height()),
     left: Math.random() * ($(window).innerHeight - $("#chatWrapper").width())
  });
-  console.log("are you working");
     $(".chatBox").append($('#chatWrapper'))
     $('#chatWrapper').show();
   greeting();
   $("#close").on('click',removeChat);
+  addUserText();
 }
 
 function removeChat() {
   $('#chatWrapper').hide()
   $("#chatLog").empty();
   inChat = false;
+  controls.enabled = true;
 }
 
 function sceneSetup() {
@@ -209,7 +211,7 @@ function raycast() {
 
 //calculates mouse position
 function onMouseMove(e) {
-  e.preventDefault();
+  //e.preventDefault();
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 }
@@ -227,7 +229,7 @@ function addDragControls() {
   //re-enables navigation controls and, if no chat box is open, initializes and places the chat box.
   dragControls.addEventListener('dragend', function() {
     console.log('nolongerdragging');
-    controls.enabled = true;
+  //  controls.enabled = true;
     if (!inChat) {
       inChat = true;
       placeChat();
