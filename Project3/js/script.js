@@ -13,12 +13,12 @@ let figScale = 30;
 let figures = [];
 let spheres = [];
 let me1, me2, me3, me4, me5, liane1, liane2, liane3, liane4;
-let particles =[];
-let particle,particleGeo,particleMat;
+let particles = [];
+let particle, particleGeo, particleMat;
 let particlesLength = 3000;
 
-let buttonText = [],
-  $button, sentence;
+let output, botGreeting, botText, botSentence;
+
 
 
 let degree = 0;
@@ -32,44 +32,58 @@ let inChat = false;
 
 window.onload = function() {
   $(".chatBox").hide();
+  addUserText();
   sceneSetup();
   createMouse();
   addSpheres();
   loadAllObjects();
- createParticles();
+  //createParticles();
   // animates the program, allowing us to navigate with simple mousepad gestures
   animate();
 };
 
 function loadText() {
-  $.get("Assets/theogon.txt", function(data) {
-    buttonText = data.split("\n");
+  $.get("Assets/script.txt", function(data) {
+    output = data.split("\n");
 
-    addButton();
+    addBotText();
   })
 }
 
-function addButton() {
+function greeting() {
+  botGreeting = $("<p id='botInput'>" + "They: Hello " + "</p>");
+  $('#chatLog').append(botGreeting);
+}
 
-  $button = $('<button class=hesiod></button>')
-  $button.attr('string');
-  sentence = buttonText[Math.floor(Math.random() * buttonText.length)];
-  // Add a p tag to the dialog div that contains the question text
-  $button.append("<p>" + sentence + "</p>");
-  // Finally, add the div to the page
-  $('#text').append($button);
+function addBotText() {
+  botText = output[Math.floor(Math.random() * output.length)];
+  botSentence = $("<p id='botInput'>" + "They: " + botText + "</p>");
+  $('#chatLog').append(botSentence);
+}
 
-  $button.parent().offset({
+function addUserText() {
+  $('#send').on("click", function() {
+    input = $("#message").val();
+    userText = $("<p id='userInput'>" + "I: " + input + "</p>");
+    $('#chatLog').append(userText);
+
+    setTimeout(loadText, 1000);
+    $('#message').val("");
+  });
+}
+
+function placeChat() {
+  $(".chatBox").parent().offset({
     top: Math.random() * ($(window).height() - $button.height()),
     left: Math.random() * ($(window).width() - $button.width())
   });
-
-  $button.on("click", removeButton);
+  $(".chatBox").show();
+  greeting();
 }
 
-function removeButton() {
-  $('button').remove()
-  addButton();
+function removeChat() {
+  $('.chatBox').remove()
+  $("#chatLog").empty();
 }
 
 function sceneSetup() {
@@ -105,7 +119,7 @@ function sceneSetup() {
   controls.dampingfactor = 0.25;
   controls.enableZoom = true;
 
-  //creates several colours  to be used
+  //creates several colours that can be referred to by name
   white = new THREE.Color();
   black = new THREE.Color(0);
   robinBlue = new THREE.Color('rgb(90, 211, 244)');
@@ -113,7 +127,7 @@ function sceneSetup() {
   let daffodil = new THREE.Color('rgb(255, 239, 140)')
   let poppy = new THREE.Color('rgb(226, 0, 0)');
 
-  // creates two light sources, one pointed directly from around the same position as the camera, one ambient and cool in tone
+  // creates three light sources of different colours, giving the objects volume via light and shdow
   pointLight1 = new THREE.PointLight(poppy);
   pointLight1.position.set(-250, 10, 15);
   scene.add(pointLight1);
@@ -124,17 +138,14 @@ function sceneSetup() {
 
   pointLight3 = new THREE.PointLight(daffodil);
   pointLight3.position.set(0, 200, 0);
-//  pointLight3.intensity = 3;
+  //  pointLight3.intensity = 3;
   scene.add(pointLight3);
 
-  let pointLight4 = new THREE.PointLight(daffodil);
-  pointLight4.position.set(0, -200, 0);
-  //scene.add(pointLight4);
   //creates an indirect light with a slightly yellow hue
   softLight = new THREE.AmbientLight("rgb(215, 223, 234)");
   softLight.position.set(0, 0, -13);
   scene.add(softLight);
-
+//creates a material that will reflect light and cast shdows with a slightly metallic finish
   material = new THREE.MeshPhysicalMaterial({
     clearCoat: 0.2,
     metalness: 0.7
@@ -152,7 +163,7 @@ function addSpheres() {
     let mesh = new THREE.MeshBasicMaterial({
       color: white,
       transparent: true,
-      opacity: 0.5
+      opacity: 0.1
     });
 
     let sphere = new THREE.Mesh(geometry, mesh);
@@ -185,9 +196,7 @@ function createMouse() {
 function raycast() {
   // calculate objects intersecting the picking ray
   intersects = raycaster.intersectObjects(figures, true);
-  for (var i = 0; i < intersects.length; i++) {
-
-  }
+  for (var i = 0; i < intersects.length; i++) {}
 }
 
 function onMouseMove(e) {
@@ -205,30 +214,34 @@ function addDragControls() {
   dragControls.addEventListener('dragend', function() {
     console.log('nolongerdragging');
     controls.enabled = true;
+    if (!inChat) {
+      placeChat();
+      inChat = true;
+    }
   })
   dragControls.addEventListener('drag', function(e) {
     figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
   })
 }
 
-function addLandscape(){
+function addLandscape() {
   let numSegments = 50;
   let material = new THREE.MeshBasicMaterial({
     opacity: 0.2,
     color: robinBlue,
-    wireframe:true
+    wireframe: true
   });
-landmesh = new THREE.PlaneGeometry(2000,3000,numSegments/2,numSegments);
+  landmesh = new THREE.PlaneGeometry(2000, 3000, numSegments / 2, numSegments);
 
- for (let i=0;i<landmesh.vertices.length;i++){
-   let noise = simplex.noise2D(i,50)
-    verticeHeight = THREE.Math.mapLinear(noise,0,1,0,200)
-   landmesh.vertices[i].z = verticeHeight;
- }
+  for (let i = 0; i < landmesh.vertices.length; i++) {
+    let noise = simplex.noise2D(i, 50)
+    verticeHeight = THREE.Math.mapLinear(noise, 0, 1, 0, 200)
+    landmesh.vertices[i].z = verticeHeight;
+  }
 
- landscape = new THREE.Mesh(landmesh, material);
- landscape.rotateX(THREE.Math.degToRad(90));
- scene.add(landscape);
+  landscape = new THREE.Mesh(landmesh, material);
+  landscape.rotateX(THREE.Math.degToRad(90));
+  scene.add(landscape);
 }
 
 function loadAllObjects() {
@@ -309,7 +322,7 @@ function addObjects() {
         child.receiveShadow = true;
       }
     });
-    figures[i].scale.set(figScale,figScale,figScale);
+    figures[i].scale.set(figScale, figScale, figScale);
     //binds model to the position of an invisible sphere. I was having trouble getting drag controls to work on the models- sabine and i came to the conclusion that
     //this was because a loded model does not correspond to one, but is comprised of many, meshes, which confuses drag controls. binding obj to sphere mesh
     //is a bit of a work-around, allowing me to select and drag a simple mesh and by proxy move the model
@@ -326,34 +339,33 @@ function rotateObjets() {
   }
 }
 
-function createParticles(){
+function createParticles() {
   particleGeo = new THREE.Geometry();
 
-  for (let i=0; i<particlesLength;i++){
-     particle = new THREE.Vector3();
-    particle.x = THREE.Math.randFloatSpread( 3000 );
-    particle.y = THREE.Math.randFloatSpread( 3000 );
-    particle.z=THREE.Math.randFloatSpread( 3000 );
-console.log("hello");
+  for (let i = 0; i < particlesLength; i++) {
+    particle = new THREE.Vector3();
+    particle.x = THREE.Math.randFloatSpread(3000);
+    particle.y = THREE.Math.randFloatSpread(3000);
+    particle.z = THREE.Math.randFloatSpread(3000);
+    console.log("hello");
     particleGeo.vertices.push(particle);
-
 
   }
   particleMat = new THREE.PointsMaterial();
-  particles = new THREE.Points(particleGeo,particleMat);
+  particles = new THREE.Points(particleGeo, particleMat);
   scene.add(particles);
   console.log("hi");
 }
 
-function moveParticles(){
-  for (let i=0; i<particlesLength;i++){
-  let  randInterval = Math.random();
-  let randVect = THREE.Math.mapLinear(randInterval,0,1,-30,30);
-    particleGeo.vertices[i].y +=+ randVect;
+function moveParticles() {
+  for (let i = 0; i < particlesLength; i++) {
+    let randInterval = Math.random();
+    let randVect = THREE.Math.mapLinear(randInterval, 0, 1, -30, 30);
+    particleGeo.vertices[i].y += +randVect;
     particleGeo.vertices[i].x += randVect;
     particleGeo.vertices[i].z += randVect;
     randVect += 0.1;
-  //  console.log(particleGeo.vertices[20].z);
+    //  console.log(particleGeo.vertices[20].z);
   }
   particleGeo.verticesNeedUpdate = true;
 }
@@ -362,7 +374,7 @@ function animate() {
   //i'm not sure what this does - the code comes from a threejs example
   requestAnimationFrame(animate);
   rotateObjets();
-  moveParticles();
+  //moveParticles();
   //ensures the continuous use of mousepad controls to navigate around the scene
   renderScene();
 }
