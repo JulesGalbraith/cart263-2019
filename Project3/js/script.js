@@ -20,7 +20,6 @@ let particlesLength = 3000;
 let output, botGreeting, botText, botSentence;
 
 
-
 let degree = 0;
 let loaded = false;
 let start = false;
@@ -32,7 +31,6 @@ let inChat = false;
 
 window.onload = function() {
   $(".chatBox").hide();
-  addUserText();
   sceneSetup();
   createMouse();
   addSpheres();
@@ -248,14 +246,22 @@ function loadAllObjects() {
 
   //creates a new loader, responsible for loading all models, and sets the destination folder in which they are found.
   let manager = new THREE.LoadingManager();
+  //function to be executed as objects are loading
   manager.onProgress = function(url, itemsLoaded, itemsLoading) {
+    //calculates the percent value of objects loaded
     let progress = (itemsLoaded / itemsLoading) * 100;
+    //adds a button. it's bright green!
     let $progressText = $('<button class=progress></button>');
+    //assigns the type of value it takes
     $progressText.attr('string');
+    //adds a percentage tracking the loaded objects
     $progressText.append('<p>' + 'Loading' + progress + "%" + '</p>');
+    //adds the button to an invisible div
     $('#text').append($progressText);
-    console.log(progress + "%");
 
+    //er- because the loader is tracking objects, which spring fully loaded in steps rather than being loaded continuously,
+    //each time a new object loaded a new button would appear next to the last. thus this workaround, which empties the old $button
+    //and updates its status
     let newButton = function() {
       $('.progress').empty();
       $progressText.append('<p>' + 'Loading ' + progress + "%" + '</p>');
@@ -264,16 +270,23 @@ function loadAllObjects() {
     setTimeout(newButton, 10);
   }
 
+//to be executed when all objects are loaded.
   manager.onLoad = function() {
+    //gets rid of progrss button
     $('.progress').remove();
+    //adds all the objects so they appear together, rather than as each one loads
     addObjects();
-    loadText();
+    //creates function that will be called whenever a button on the chatbox is clicked. i figured i would throw it in here rather than in onLoad
+    //so that the program could just focus on loading the models
+    addUserText();
   }
 
+//creates a loader that loads obj files. actually requires extra reference in the index
   objLoader = new THREE.OBJLoader(manager);
+  //sets the retrieval path for all objs
   objLoader.setPath('Assets/OBJ/');
 
-  //these are 3d scans of myself and a friend, edited to an extent in blender to remove extraneous artefacts
+  //these are 3d scans of myself and a friend, edited to an extent in blender to remove extraneous artefacts and reposition at origin
   me1 = objLoader.load('jules1.obj', function(me1) {
     //adds to an array holding all models
     figures.push(me1);
@@ -312,6 +325,10 @@ function loadAllObjects() {
   });
 }
 
+//batch assigns material, position and adds figures. initially i was assigning all these at the same time as loading due to issues with referring to the
+//figures array- finally realized that the loaded objects were not actually counted as single instances of a mesh, but were rather considered (according to sabine)
+//aggregations of meshes. digging through stackexchange gave me this method, where rather than putting creating a new mesh from each obj and a material, i could
+//'traverse' the obj's to assign materials to their constituent mesh particles.
 function addObjects() {
   for (let i = 0; i < figures.length; i++) {
     figures[i].traverse(function(child) {
@@ -322,56 +339,74 @@ function addObjects() {
         child.receiveShadow = true;
       }
     });
+    //scales the figures up because i like big programs, apparently
     figures[i].scale.set(figScale, figScale, figScale);
     //binds model to the position of an invisible sphere. I was having trouble getting drag controls to work on the models- sabine and i came to the conclusion that
     //this was because a loded model does not correspond to one, but is comprised of many, meshes, which confuses drag controls. binding obj to sphere mesh
     //is a bit of a work-around, allowing me to select and drag a simple mesh and by proxy move the model
     figures[i].position.set(spheres[i].position.x, spheres[i].position.y, spheres[i].position.z);
+    //adds em all to the scene
     scene.add(figures[i]);
   }
 }
 
+//static things are boring! movement is lovely and eerie so they will rotate in place.
 function rotateObjets() {
+  //expresses angle without referring back to math i can't remember
   degree = THREE.Math.degToRad(0);
+  //all figures rotate around their origin
   for (let i = 0; i < figures.length; i++) {
     figures[i].rotateY(degree);
     degree += 0.005;
   }
 }
 
+//creating a fun little moving field to haze around my objects. this is based on a threejs example for a static starfield
 function createParticles() {
+  //these particles won't be independent objects, but will in fact all be vertices of the same geometry.
   particleGeo = new THREE.Geometry();
 
   for (let i = 0; i < particlesLength; i++) {
+    //each particle is expressed as a vector
     particle = new THREE.Vector3();
+//i don't actually know why randFloatSpread is necessary, but when I tried placing them randomly according to my intuition, they came out a straight diagonal line, so
+//i just lifted the example placement
     particle.x = THREE.Math.randFloatSpread(3000);
     particle.y = THREE.Math.randFloatSpread(3000);
     particle.z = THREE.Math.randFloatSpread(3000);
-    console.log("hello");
+    //adds each vector to the geometry
     particleGeo.vertices.push(particle);
 
   }
+  //new material rinse repeat
   particleMat = new THREE.PointsMaterial();
+  //
+  //adds geometry and material into a mesh that is technically just a mass of points
   particles = new THREE.Points(particleGeo, particleMat);
   scene.add(particles);
-  console.log("hi");
 }
 
+//updates the vertices of the geometry created above to create a static-y movement effect
 function moveParticles() {
   for (let i = 0; i < particlesLength; i++) {
+    //creates a random interval between 1 and 0
     let randInterval = Math.random();
+    //maps that between a negative and positive interval
     let randVect = THREE.Math.mapLinear(randInterval, 0, 1, -30, 30);
+    //updates the vertice positions
     particleGeo.vertices[i].y += +randVect;
     particleGeo.vertices[i].x += randVect;
     particleGeo.vertices[i].z += randVect;
+    //increases the different every frame
     randVect += 0.1;
     //  console.log(particleGeo.vertices[20].z);
   }
+  //spare no expense$$$. tells the processor that i do in fact want the vertices updated every frame. '
   particleGeo.verticesNeedUpdate = true;
 }
 //animate function
 function animate() {
-  //i'm not sure what this does - the code comes from a threejs example
+  //i'm not sure what this does - the code is in every threejs example.it seems that it is necessary for movement
   requestAnimationFrame(animate);
   rotateObjets();
   //moveParticles();
