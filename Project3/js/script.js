@@ -35,55 +35,67 @@ window.onload = function() {
   sceneSetup();
   createMouse();
   addSpheres();
-  //loadAllObjects();
-  //createParticles();
+  loadAllObjects();
+  createParticles();
   // animates the program, allowing us to navigate with simple mousepad gestures
   animate();
 };
 
+//loads a text files that will furnish sentences for the chat window
 function loadText() {
   $.get("Assets/script.txt", function(data) {
+    //loads the data as an array, each element separated at a new line
     output = data.split("\n");
-
+//chooses a random sentence to show
     addBotText();
   })
 }
 
+//loads 'hello' every time the chatbox is opened
 function greeting() {
-  botGreeting = $("<p id='botInput'>" + "They: Hello " + "</p>");
+  botGreeting = $("<p id='botInput'>" + "Them: Hello " + "</p>");
   $('#chatLog').append(botGreeting);
 }
 
+//loads a random sentence from the array
 function addBotText() {
   botText = output[Math.floor(Math.random() * output.length)];
-  botSentence = $("<p id='botInput'>" + "They: " + botText + "</p>");
+  //puts the sentence into a variable and presents it in the chat log
+  botSentence = $("<p id='botInput'>" + "Them: " + botText + "</p>");
   $('#chatLog').append(botSentence);
 }
 
 function addUserText() {
+  //when 'send' button is clicked, words entered into the input field are appended to the chat log
   $('#send').on("click", function() {
-    console.log("yello");
     input = $("#message").val();
-    userText = $("<p id='userInput'>" + "I: " + input + "</p>");
+    userText = $("<p id='userInput'>" + "You: " + input + "</p>");
     $('#chatLog').append(userText);
-
+//every time the user answers, a second passes before the reponse is called
     setTimeout(loadText, 1000);
+    //empties the input field
     $('#message').val("");
   });
 }
 
 function placeChat() {
+  //this should place the chatbox at a random point in the window- and initially it was, but then started bugging and sending things way off canvas.
+  //i changed the css style, as well, which seems to have fixed it in place and which is for the moment satisfactory
    $("#chatWrapper").offset({
     top: Math.random() * ($(window).innerWidth -$("#chatWrapper").height()),
     left: Math.random() * ($(window).innerHeight - $("#chatWrapper").width())
  });
+ //adds the visual chatbox style to an empty div located above the canvas
     $(".chatBox").append($('#chatWrapper'))
+    //shows the box, originally hidden
     $('#chatWrapper').show();
   greeting();
+  //closes the chatbox when 'close' is clicked
   $("#close").on('click',removeChat);
   addUserText();
 }
 
+//closes chatbox, empties the log, and reinstates navigation controls (which interfere with the input field if enabled)
 function removeChat() {
   $('#chatWrapper').hide()
   $("#chatLog").empty();
@@ -239,7 +251,7 @@ function addDragControls() {
   //listens to whatever object is being dragged (spheres), and assigns the corresponding object (the figure in the same array position
   //as a givevn sphere) to move along with it
   dragControls.addEventListener('drag', function(e) {
-  //  figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
+   figures[e.object.name].position.set(e.object.position.x, e.object.position.y, e.object.position.z);
   })
 }
 
@@ -438,8 +450,8 @@ function moveParticles() {
 function animate() {
   //i'm not sure what this does - the code is in every threejs example.it seems that it is necessary for movement
   requestAnimationFrame(animate);
-//  rotateObjets();
-  //moveParticles();
+ rotateObjets();
+  moveParticles();
   //ensures the continuous use of mousepad controls to navigate around the scene
   renderScene();
 }
